@@ -1,0 +1,26 @@
+<!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="853.15dp"
+    android:height="1019.68dp"
+    android:viewportWidth="853.15"
+    android:viewportHeight="1019.68">
+    <path
+        android:pathData="M823.86,150.79C692.39,147.51 572.26,123.94 450.3,9.29a34.25,34.25 0,0 0,-47.38 0.45c-79.2,77.16 -174.94,141 -373.77,141 -16.36,0 -29.32,14 -29.15,30.32 2.17,209 -0.71,363.28 40.48,476.57 102,280.57 294.81,327.37 386.17,362 68.47,-32.35 300.81,-93.43 386.29,-362 37.76,-118.62 37.85,-247.93 40.2,-476.56A30,30 0,0 0,823.86 150.79ZM424.86,967.41c-50.53,-19.19 -144.06,-63.28 -223.94,-142 5.6,-92.45 67,-169.84 151,-198.93a202.45,202.45 0,0 0,146 -0.51C585.58,655.68 649.07,738.13 650.61,835.6 564.63,919.47 464.07,948.83 424.82,967.41ZM259.48,438.07a165.23,165.23 0,1 1,78.12 140.43A165.26,165.26 0,0 1,259.48 438.07ZM764.04,648.89C746.62,703.68 722.27,748.68 694.39,785.82a275.25,275.25 0,0 0,-143.45 -190.8,201.38 201.38,0 0,0 75,-157c0,-111.44 -90.34,-201.78 -201.78,-201.78S222.39,326.63 222.39,438.07a201.39,201.39 0,0 0,75.46 157.34A275.37,275.37 0,0 0,157.07 776.58a456.28,456.28 0,0 1,-71.35 -127.69C48,544.3 52.39,400.21 49.85,202.49c194.64,0 311.79,-81.54 374.94,-144.7 64.18,61.5 158.68,136.49 374.81,145.47l0,0C797.22,420.99 798.61,540.05 764.04,648.89Z"
+        android:fillColor="#00a5ff" />
+</vector>

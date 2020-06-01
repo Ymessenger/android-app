@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvDateDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gapSmall"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/message_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="16 may" />
+
+    <LinearLayout
+        android:id="@+id/message_info_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gapXSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/message_layout"
+        app:layout_constraintEnd_toStartOf="@id/message_layout"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed">
+
+        <LinearLayout
+            android:id="@+id/icons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/gapSmall"
+            android:layout_gravity="end">
+
+            <ImageView
+                android:id="@+id/ivEncrypted"
+                android:layout_width="@dimen/message_icon_size"
+                android:layout_height="@dimen/message_icon_size"
+                android:layout_marginEnd="@dimen/gapXSmall"
+                android:src="@drawable/ic_lock"
+                android:tint="@color/colorGrayLighten"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ivMessageStatus"
+                android:layout_width="@dimen/message_icon_size"
+                android:layout_height="@dimen/message_icon_size"
+                android:src="@drawable/ic_done_all"
+                android:tint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTime"
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginStart="@dimen/gapSmall"
+            android:layout_marginEnd="@dimen/gapSmall"
+            tools:text="13:36" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/message_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_my_message_simple"
+        android:minWidth="@dimen/message_min_width"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/gapSmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/message_info_layout"
+        app:layout_constrainedWidth="true">
+
+        <include layout="@layout/message_body_layout" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

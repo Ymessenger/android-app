@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_voice">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="@dimen/gapXSmall"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_play_circle_filled"
+        android:tint="@color/colorDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbDownloading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorGray"
+        android:indeterminateTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="@id/ivImage"
+        app:layout_constraintEnd_toEndOf="@id/ivImage"
+        app:layout_constraintStart_toStartOf="@id/ivImage"
+        app:layout_constraintTop_toTopOf="@id/ivImage" />
+
+    <TextView
+        android:id="@+id/tvVoiceMessageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/gapSmall"
+        android:layout_marginStart="@dimen/gapXSmall"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorDark"
+        android:textSize="12sp"
+        android:minWidth="150dp"
+        android:text="@string/voice_message"
+        app:layout_constraintBottom_toTopOf="@id/tvFileSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivImage"
+        app:layout_constraintTop_toTopOf="@id/ivImage"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tvFileSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/gapSmall"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorGray"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvVoiceMessageLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvVoiceMessageLabel"
+        tools:text="145 KB" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

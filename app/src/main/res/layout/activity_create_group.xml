@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.ymessenger.app.viewmodels.CreateGroupViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
+
+        <include
+            android:id="@+id/toolbar_layout"
+            layout="@layout/simple_toolbar" />
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGroupUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/gapMedium"
+                android:src="@drawable/ic_done"
+                android:tint="@color/colorWhite"
+                android:layout_gravity="bottom|end" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/gapMedium"
+                android:src="@drawable/ic_close"
+                android:tint="@color/colorWhite"
+                android:visibility="gone"
+                android:layout_gravity="bottom|end" />
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivGroupAvatar"
+                        android:layout_width="@dimen/user_avatar_size_l"
+                        android:layout_height="@dimen/user_avatar_size_l"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:src="@drawable/upload_avatar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/group_name_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:hint="@string/group_name"
+                        app:layout_constraintBottom_toBottomOf="@id/ivGroupAvatar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ivGroupAvatar"
+                        app:layout_constraintTop_toTopOf="@id/ivGroupAvatar">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etGroupName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text|textCapSentences"
+                            android:maxLength="50"
+                            android:text="@={viewModel.name}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Switch
+                        android:id="@+id/switchInviteOnly"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:checked="@={viewModel.privateChat}"
+                        android:text="@string/invite_only"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivGroupAvatar" />
+
+                    <Switch
+                        android:id="@+id/switchCreateChannel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:checked="@={viewModel.createChannel}"
+                        android:text="@string/create_channel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switchInviteOnly" />
+
+                    <TextView
+                        android:id="@+id/tvAutoDeleteMessagesLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/auto_delete_messages"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switchCreateChannel"
+                        android:visibility="gone" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAutoDeleteMessages"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/gapMedium"
+                        android:layout_marginEnd="@dimen/gapMedium"
+                        android:entries="@array/auto_delete_messages_values"
+                        android:text="@string/auto_delete_messages"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAutoDeleteMessagesLabel"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnAddMembers"
+                        style="@style/ButtonTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapMedium"
+                        android:text="@string/add_members"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/spinnerAutoDeleteMessages"
+                        app:layout_constraintVertical_bias="0" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
+
+</layout>

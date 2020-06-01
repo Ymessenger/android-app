@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "630501201988",
+    "firebase_url": "https://ypush-dfa7d.firebaseio.com",
+    "project_id": "ypush-dfa7d",
+    "storage_bucket": "ypush-dfa7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630501201988:android:79694f4df1f899d5",
+        "android_client_info": {
+          "package_name": "org.ymessenger.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630501201988-aq904mrbc2n5i8slgbas67g650o7vtch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6XUn9RKa842HCX8_0bVVdw8mi9zX6NMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630501201988-aq904mrbc2n5i8slgbas67g650o7vtch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

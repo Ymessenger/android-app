@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/simple_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium"
+                android:text="@string/specify_what_information_is_available_to_other_users" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchNameTag"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name_and_tag" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gapMedium"
+                android:paddingEnd="@dimen/gapMedium"
+                android:paddingBottom="@dimen/gapSmall"
+                android:text="@string/other_users_will_be_able_to_find_you_by_name_and_tag"
+                android:background="@drawable/bottom_line" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchOnline"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/online" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gapMedium"
+                android:paddingEnd="@dimen/gapMedium"
+                android:paddingBottom="@dimen/gapSmall"
+                android:text="@string/other_users_will_see_when_you_are_online"
+                android:background="@drawable/bottom_line" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchPhone"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gapMedium"
+                android:paddingEnd="@dimen/gapMedium"
+                android:paddingBottom="@dimen/gapSmall"
+                android:text="@string/other_users_will_be_able_to_find_you_by_phone"
+                android:background="@drawable/bottom_line" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchEmail"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gapMedium"
+                android:paddingEnd="@dimen/gapMedium"
+                android:paddingBottom="@dimen/gapSmall"
+                android:text="@string/other_users_will_be_able_to_find_you_by_email"
+                android:background="@drawable/bottom_line" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchPhotoAbout"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/photo_and_about" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gapMedium"
+                android:paddingEnd="@dimen/gapMedium"
+                android:paddingBottom="@dimen/gapSmall"
+                android:text="@string/other_users_will_see_your_photo_and_about_info"
+                android:background="@drawable/bottom_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium"
+                android:text="@string/application_login_settings" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnPin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/gapMedium">
+
+                <ImageView
+                    android:id="@+id/ivIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_key"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapLarge"
+                    android:text="@string/pin"
+                    android:textColor="@color/colorDark"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_pin_to_enter_the_application"
+                    app:layout_constraintStart_toStartOf="@id/tvTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnSessions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/gapMedium">
+
+                <ImageView
+                    android:id="@+id/ivSessionIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_devices"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSessionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapLarge"
+                    android:text="@string/sessions"
+                    android:textColor="@color/colorDark"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/ivSessionIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/list_of_authorized_devices"
+                    app:layout_constraintStart_toStartOf="@id/tvSessionTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvSessionTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium"
+                android:text="@string/contact_sync_settings" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSyncContacts"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_contacts" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium"
+                android:text="@string/encryption_settings" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchEncryptedConnection"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/encrypted_connection" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium"
+                android:text="@string/save_passphrase_description" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSavePassphrase"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_passphrase_on_device" />
+
+            <Button
+                style="@style/ButtonTextView.Black"
+                android:padding="@dimen/gapMedium"
+                android:id="@+id/btnChangePassphrase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_passphrase" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

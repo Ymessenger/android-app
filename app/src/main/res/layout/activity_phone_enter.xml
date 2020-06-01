@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".activities.PhoneEnterActivity">
+
+    <include layout="@layout/simple_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/choose_server_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/server_title"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapMedium"
+                    android:text="@string/server"
+                    app:layout_constraintBottom_toTopOf="@id/tvServerName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/btnChangeServer" />
+
+                <TextView
+                    android:id="@+id/tvServerName"
+                    style="@style/Text.Primary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/gapMedium"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/automatically"
+                    app:layout_constraintBottom_toBottomOf="@id/btnChangeServer"
+                    app:layout_constraintEnd_toStartOf="@id/btnChangeServer"
+                    app:layout_constraintStart_toStartOf="@id/server_title"
+                    app:layout_constraintTop_toBottomOf="@id/server_title" />
+
+                <TextView
+                    android:id="@+id/tvConnectionStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvServerName"
+                    app:layout_constraintStart_toStartOf="@id/tvServerName"
+                    android:text="@string/connection" />
+
+                <Button
+                    android:id="@+id/btnChangeServer"
+                    style="@style/Button.Secondary.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gapLarge"
+                    android:layout_marginEnd="@dimen/gapMedium"
+                    android:text="@string/change"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/delimiter"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/gapLarge"
+                    android:background="@drawable/delimiter"
+                    app:layout_constraintEnd_toEndOf="@id/btnChangeServer"
+                    app:layout_constraintStart_toStartOf="@id/server_title"
+                    app:layout_constraintTop_toBottomOf="@id/btnChangeServer" />
+
+                <TextView
+                    android:id="@+id/input_number_title"
+                    style="@style/Text.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gapLarge"
+                    android:text="@string/input_phone_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/delimiter" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/we_sent_title"
+                style="@style/Text.Primary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/gapLarge"
+                android:layout_marginTop="@dimen/gapXLarge"
+                android:layout_marginEnd="@dimen/gapLarge"
+                android:layout_marginBottom="@dimen/gapXLarge"
+                android:gravity="center"
+                android:text="@string/we_sent_you_code"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/choose_server_container">
+
+                <EditText
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionGo"
+                    android:inputType="phone"
+                    android:digits="0123456789 +-()"
+                    tools:text="+7 923 555-66-77"
+                    android:text="+"
+                    android:maxLength="17"
+                    android:minEms="5"
+                    android:textSize="24sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/ivFlag"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/gapSmall"
+                android:src="@android:drawable/ic_lock_lock"
+                app:layout_constraintBottom_toBottomOf="@id/phoneLayout"
+                app:layout_constraintEnd_toStartOf="@id/phoneLayout"
+                app:layout_constraintTop_toTopOf="@id/phoneLayout"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnReceiveCode"
+                style="@style/Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/gapXLarge"
+                android:layout_marginTop="@dimen/gapMedium"
+                android:layout_marginEnd="@dimen/gapXLarge"
+                android:text="@string/receive_sms_code"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phoneLayout" />
+
+            <LinearLayout
+                android:id="@+id/enter_code_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phoneLayout">
+
+                <TextView
+                    android:id="@+id/input_code_title"
+                    style="@style/Text.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gapLarge"
+                    android:gravity="center"
+                    android:text="@string/input_confirmation_code" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/codeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <EditText
+                        android:id="@+id/etCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberPassword"
+                        android:letterSpacing=".5"
+                        android:maxLength="@integer/verification_code_length"
+                        android:maxLines="1"
+                        android:minEms="5"
+                        android:textSize="40sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnDone"
+                    style="@style/Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapXLarge"
+                    android:layout_marginTop="@dimen/gapMedium"
+                    android:layout_marginEnd="@dimen/gapXLarge"
+                    android:layout_marginBottom="@dimen/gapMedium"
+                    android:text="@string/done" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

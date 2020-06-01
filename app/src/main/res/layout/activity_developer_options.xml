@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/simple_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Firebase token, click to copy"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium" />
+
+            <TextView
+                android:id="@+id/tvFirebaseToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:text="No data"
+                android:padding="@dimen/gapMedium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Encryption stuff"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium" />
+
+            <Button
+                android:id="@+id/btnDeleteAsymmetricKeys"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_asymmetric_keys" />
+
+            <Button
+                android:id="@+id/btnDeleteSymmetricKeys"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_symmetric_keys" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Local database"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium" />
+
+            <Button
+                android:id="@+id/btnDeleteAllUsers"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all users" />
+
+            <Button
+                android:id="@+id/btnDeleteAllContacts"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all contacts" />
+
+            <Button
+                android:id="@+id/btnDeleteAllContactGroups"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all contact groups" />
+
+            <Button
+                android:id="@+id/btnDeleteAllChats"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all chats" />
+
+            <Button
+                android:id="@+id/btnDeleteAllChannels"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all channels" />
+
+            <Button
+                android:id="@+id/btnDeleteAllRepliedMessages"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete all replied messages" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium" />
+
+            <Button
+                android:id="@+id/btnOpenPhoneContacts"
+                style="@style/ButtonTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open phone contacts" />
+
+            <Switch
+                android:id="@+id/switchAlwaysOpenMainActivityAsAfterRegister"
+                style="@style/SecuritySettingsSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Always open MainActivity as after register" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

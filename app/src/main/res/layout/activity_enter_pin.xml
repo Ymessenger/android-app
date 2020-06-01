@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gapMedium"
+        android:text="@string/enter_pin"
+        app:layout_constraintBottom_toTopOf="@id/llPinDots"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/llPinDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/glPinButtons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dot_indicator" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dot_indicator" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dot_indicator" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dot_indicator" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gapMedium"
+        android:text="@string/invalid_pin_entered"
+        android:textColor="@color/colorMaterialRed500"
+        app:layout_constraintTop_toBottomOf="@id/llPinDots"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible" />
+
+    <GridLayout
+        android:id="@+id/glPinButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn1"
+            style="@style/PinDigitButton"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/btn2"
+            style="@style/PinDigitButton"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/btn3"
+            style="@style/PinDigitButton"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/btn4"
+            style="@style/PinDigitButton"
+            android:text="4" />
+
+        <Button
+            android:id="@+id/btn5"
+            style="@style/PinDigitButton"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/btn6"
+            style="@style/PinDigitButton"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/btn7"
+            style="@style/PinDigitButton"
+            android:text="7" />
+
+        <Button
+            android:id="@+id/btn8"
+            style="@style/PinDigitButton"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/btn9"
+            style="@style/PinDigitButton"
+            android:text="9" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/PinDigitButton"
+            android:src="@drawable/ic_close" />
+
+        <Button
+            android:id="@+id/btn0"
+            style="@style/PinDigitButton"
+            android:layout_column="1"
+            android:text="0" />
+
+        <ImageButton
+            android:id="@+id/btnC"
+            style="@style/PinDigitButton"
+            android:src="@drawable/ic_backspace" />
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnForgotPin"
+        style="@style/ButtonTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gapMedium"
+        android:text="@string/forgot_pin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

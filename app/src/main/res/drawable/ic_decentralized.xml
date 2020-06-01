@@ -1,0 +1,93 @@
+<!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1008.21dp"
+    android:height="890.44dp"
+    android:viewportWidth="1008.21"
+    android:viewportHeight="890.44">
+    <path
+        android:pathData="M287.06,819.77l-217.86,-377.33l217.86,-377.34l435.71,0l217.85,377.34l-217.85,377.33l-435.71,0z"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M504.11,442.75L68.75,442.75"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M939.46,442.44L504.11,442.44"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M716.49,66.75L504.11,442.44"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M286.43,66.19L504.11,442.44"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M287.11,819.69L504.11,442.44"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M722.77,819.77L504.11,442.44"
+        android:strokeWidth="40"
+        android:fillColor="#00000000"
+        android:strokeColor="#44c4fc" />
+    <path
+        android:pathData="M287.11,68.75m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M716.49,68.75m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M939.46,444.44m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M68.75,444.44m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M287.11,821.69m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M723.53,821.69m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+    <path
+        android:pathData="M504.11,444.75m-48.75,0a48.75,48.75 0,1 1,97.5 0a48.75,48.75 0,1 1,-97.5 0"
+        android:strokeWidth="40"
+        android:fillColor="#fff"
+        android:strokeColor="#00a5ff" />
+</vector>

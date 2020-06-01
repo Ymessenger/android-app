@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/gapSmall"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="@dimen/user_avatar_size_m"
+        android:layout_height="@dimen/user_avatar_size_m"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/ic_document" />
+
+    <ImageView
+        android:id="@+id/ivSelected"
+        android:layout_width="@dimen/selected_icon_size"
+        android:layout_height="@dimen/selected_icon_size"
+        android:src="@drawable/icon_file_selected"
+        app:layout_constraintTop_toTopOf="@id/ivImage"
+        app:layout_constraintEnd_toEndOf="@id/ivImage"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Text.Primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gapSmall"
+        android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        app:layout_constraintTop_toBottomOf="@id/ivImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

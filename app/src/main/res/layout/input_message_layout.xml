@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayLighten" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputMessageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
+
+        <ImageButton
+            android:id="@+id/btnAttachments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/gapSmall"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/gapSmall"
+            android:src="@drawable/ic_attach_file"
+            android:tint="@color/colorGray"
+            app:layout_constraintBottom_toBottomOf="@id/etMessageText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAttachments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/layout_reply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/layout_reply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gapSmall"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/etMessageText"
+            app:layout_constraintEnd_toEndOf="@id/etMessageText"
+            app:layout_constraintStart_toStartOf="@id/etMessageText"
+            app:layout_constraintTop_toBottomOf="@id/rvAttachments"
+            tools:visibility="visible">
+
+            <include
+                layout="@layout/message_reply_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btnRemoveReply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/gapXSmall"
+                android:src="@drawable/ic_close" />
+
+        </LinearLayout>
+
+        <org.ymessenger.app.utils.RichEditText
+            android:id="@+id/etMessageText"
+            style="@style/EditText.Rounded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/gapSmall"
+            android:hint="@string/hint_message"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layout_send_buttons"
+            app:layout_constraintStart_toEndOf="@id/btnAttachments"
+            app:layout_constraintTop_toBottomOf="@id/layout_reply"
+            app:layout_goneMarginTop="@dimen/gapSmall" />
+
+        <TextView
+            android:id="@+id/tvVoiceRecordingLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/recording"
+            android:visibility="invisible"
+            android:textColor="@color/colorMaterialRed500"
+            app:layout_constraintBottom_toBottomOf="@id/etMessageText"
+            app:layout_constraintEnd_toEndOf="@id/etMessageText"
+            app:layout_constraintStart_toStartOf="@id/etMessageText"
+            app:layout_constraintTop_toTopOf="@id/etMessageText" />
+
+        <LinearLayout
+            android:id="@+id/layout_send_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/etMessageText"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/gapSmall"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/gapSmall"
+                android:src="@drawable/ic_send"
+                android:tint="@color/primary_button_color" />
+
+            <ImageButton
+                android:id="@+id/btnVoiceMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/gapSmall"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/gapSmall"
+                android:src="@drawable/ic_mic_none"
+                android:tint="@color/primary_button_color"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pbMessageIsSending"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/layout_send_buttons"
+            app:layout_constraintEnd_toEndOf="@id/layout_send_buttons"
+            app:layout_constraintStart_toStartOf="@id/layout_send_buttons"
+            app:layout_constraintTop_toTopOf="@id/layout_send_buttons" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

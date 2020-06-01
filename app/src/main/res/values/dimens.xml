@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <dimen name="primaryButtonCornerRadius">50dp</dimen>
+    <dimen name="primaryButtonPaddingVertical">10dp</dimen>
+    <dimen name="primaryButtonPaddingHorizontal">60dp</dimen>
+
+    <dimen name="secondaryButtonCornerRadius">10dp</dimen>
+    <dimen name="secondaryButtonStrokeWidth">2dp</dimen>
+    <dimen name="secondaryButtonPadding">14dp</dimen>
+
+    <dimen name="secondaryButtonSmallCornerRadius">6dp</dimen>
+    <dimen name="secondaryButtonSmallVerticalPadding">8dp</dimen>
+    <dimen name="secondaryButtonSmallHorizontalPadding">20dp</dimen>
+
+    <dimen name="gapXXSmall">2dp</dimen>
+    <dimen name="gapXSmall">4dp</dimen>
+    <dimen name="gapSmall">8dp</dimen>
+    <dimen name="gapMedium">16dp</dimen>
+    <dimen name="gapHalfLarge">24dp</dimen>
+    <dimen name="gapLarge">32dp</dimen>
+    <dimen name="gapXLarge">64dp</dimen>
+
+    <dimen name="dotDiameter">12dp</dimen>
+    <dimen name="dotSelectedDiameter">16dp</dimen>
+
+    <!--Search EditText-->
+    <dimen name="search_et_horizontal_padding">32sp</dimen>
+    <dimen name="search_et_vertical_padding">10sp</dimen>
+
+    <!--Server Item-->
+    <dimen name="server_image_size">48dp</dimen>
+    <dimen name="server_image_large_size">100dp</dimen>
+
+    <!--User Avatar-->
+    <dimen name="user_avatar_size_xs">18dp</dimen>
+    <dimen name="user_avatar_size_s">36dp</dimen>
+    <dimen name="user_avatar_size_m">64dp</dimen>
+    <dimen name="user_avatar_size_l">100dp</dimen>
+
+    <dimen name="tag_online_size">6dp</dimen>
+
+    <dimen name="badge_size">20dp</dimen>
+    <dimen name="small_badge_size">8dp</dimen>
+
+    <!--Edit Text-->
+    <dimen name="edit_text_corner_radius">20dp</dimen>
+
+    <!--Message Cloud-->
+    <dimen name="message_cloud_radius">10dp</dimen>
+    <dimen name="message_cloud_vertical_margin">@dimen/gapXSmall</dimen>
+    <dimen name="message_min_width">44dp</dimen>
+
+    <dimen name="pinButtonSize">60dp</dimen>
+
+    <dimen name="qrCodeSize">200dp</dimen>
+
+    <dimen name="poll_vote_verify_status">24dp</dimen>
+
+    <dimen name="item_attachment_width">76dp</dimen>
+    <dimen name="item_attachment_height">60dp</dimen>
+
+    <dimen name="selected_icon_size">20dp</dimen>
+
+    <dimen name="message_icon_size">12dp</dimen>
+</resources>

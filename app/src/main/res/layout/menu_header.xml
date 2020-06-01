@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary">
+
+    <ImageButton
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logout"
+        android:padding="@dimen/gapMedium"
+        android:layout_marginTop="@dimen/gapMedium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:tint="@color/colorWhite"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUserAvatar"
+        app:layout_constraintEnd_toEndOf="@+id/ivUserAvatar"
+        app:layout_constraintStart_toStartOf="@+id/ivUserAvatar"
+        app:layout_constraintTop_toTopOf="@+id/ivUserAvatar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_photo" />
+
+        <TextView
+            android:id="@+id/tvPhotoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLength="2"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:text="JS" />
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivUserAvatar"
+        android:layout_width="@dimen/user_avatar_size_l"
+        android:layout_height="@dimen/user_avatar_size_l"
+        android:layout_margin="@dimen/gapMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/gapMedium"
+        app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
+        app:layout_constraintBottom_toBottomOf="@id/ivUserAvatar"
+        app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:maxLines="4"
+        android:ellipsize="end"
+        tools:text="John Smith" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <include
+        android:id="@+id/appBarLayout"
+        layout="@layout/simple_toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutPhotoAndName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivUserAvatar"
+                    app:layout_constraintEnd_toEndOf="@+id/ivUserAvatar"
+                    app:layout_constraintStart_toStartOf="@+id/ivUserAvatar"
+                    app:layout_constraintTop_toTopOf="@+id/ivUserAvatar">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/no_photo" />
+
+                    <TextView
+                        android:id="@+id/tvPhotoLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:maxLength="2"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        tools:text="JS" />
+
+                </RelativeLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivUserAvatar"
+                    android:layout_width="@dimen/user_avatar_size_l"
+                    android:layout_height="@dimen/user_avatar_size_l"
+                    android:layout_marginStart="@dimen/gapMedium"
+                    android:layout_marginTop="@dimen/gapMedium"
+                    android:layout_marginBottom="@dimen/gapMedium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/Text.Primary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapMedium"
+                    android:layout_marginEnd="@dimen/gapMedium"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvNameTapLabel"
+                    app:layout_constraintEnd_toStartOf="@id/btnShowQR"
+                    app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
+                    app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="John Smith" />
+
+                <TextView
+                    android:id="@+id/tvNameTapLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_to_change"
+                    android:textColor="@color/colorGray"
+                    app:layout_constraintBottom_toBottomOf="@id/ivUserAvatar"
+                    app:layout_constraintEnd_toEndOf="@id/tvName"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@id/tvName"
+                    app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                <ImageButton
+                    android:id="@+id/btnShowQR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/qrcode"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="@dimen/gapSmall"
+                    android:padding="@dimen/gapSmall"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="@dimen/gapMedium">
+
+                <TextView
+                    android:id="@+id/tvPhoneNumber"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:textSize="18sp"
+                    tools:text="@string/phone_is_empty" />
+
+                <TextView
+                    android:id="@+id/tvPhoneTapLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_to_add"
+                    android:textColor="@color/colorGray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="@dimen/gapMedium">
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:textSize="18sp"
+                    tools:text="email@gmail.com" />
+
+                <TextView
+                    android:id="@+id/tvEmailTapLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_to_change"
+                    android:textColor="@color/colorGray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="@dimen/gapMedium">
+
+                <TextView
+                    android:id="@+id/tvTag"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    tools:text="GN43F3N4K" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/click_to_copy_tag"
+                    android:textColor="@color/colorGray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="@dimen/gapMedium">
+
+                <TextView
+                    android:id="@+id/tvAbout"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    tools:text="Something about me..." />
+
+                <TextView
+                    android:id="@+id/tvAboutTapLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_to_change"
+                    android:textColor="@color/colorGray" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/preferences_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/gapMedium"
+                tools:text="Version 0.1.2" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

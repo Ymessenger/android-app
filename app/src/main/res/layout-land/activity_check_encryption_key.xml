@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <include layout="@layout/simple_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scan_qr_code_info_label"
+                android:background="@color/backgroundGray"
+                android:padding="@dimen/gapMedium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/ivQRCode"
+                    android:layout_width="@dimen/qrCodeSize"
+                    android:layout_height="@dimen/qrCodeSize"
+                    android:layout_margin="@dimen/gapMedium"
+                    tools:src="@drawable/badge_favourite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnSendQRCode"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:text="@string/send_qr_code_via_message" />
+
+                    <Button
+                        android:id="@+id/btnScanQRCode"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:text="@string/scan_qr_code" />
+
+                    <Button
+                        android:id="@+id/btnGetQRFromMessages"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:text="@string/get_qr_code_from_messages" />
+
+                    <Button
+                        android:id="@+id/btnGetQRFromGallery"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:text="@string/get_qr_code_from_gallery" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvKeyHash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="02345HJ345H35K3HLKNDGSD0F9GHGBGJNLKDJNG7ET4JN3KLJN4788E7534HF8437FH74HSHF7E84FH34F88FHGHUA7FG48F3"
+                android:background="@color/colorGrayLightest"
+                android:padding="@dimen/gapMedium"
+                android:textColor="@color/colorDark"
+                android:typeface="monospace"
+                android:layout_marginBottom="@dimen/gapMedium" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

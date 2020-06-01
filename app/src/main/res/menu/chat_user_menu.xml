@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mi_dismiss_moderator_rights"
+        android:icon="@drawable/ic_cancel"
+        android:title="@string/dismiss_moderator_rights"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/mi_promote_to_moderator"
+        android:icon="@drawable/ic_stars"
+        android:title="@string/promote_to_moderator"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/mi_demote_to_moderator"
+        android:icon="@drawable/ic_cancel"
+        android:title="@string/demote_to_moderator"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/mi_promote_to_admin"
+        android:icon="@drawable/ic_stars"
+        android:title="@string/promote_to_admin"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/mi_remove_from_chat"
+        android:icon="@drawable/ic_remove_circle"
+        android:title="@string/remove_from_chat" />
+</menu>

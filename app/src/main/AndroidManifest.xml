@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.ymessenger.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:name=".AppBase"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_my_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_my_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--hardwareAccelerated used for XZing-->
+
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EnterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.PhoneEnterActivity"
+            android:label="@string/sign_in" />
+        <activity
+            android:name=".activities.EmailEnterActivity"
+            android:label="@string/sign_in" />
+        <activity
+            android:name=".activities.QRCodeEnterActivity"
+            android:label="@string/sign_in"
+            android:screenOrientation="portrait" />
+
+        <!--This is necessary to launch XZing in portrait mode-->
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            tools:replace="android:screenOrientation" />
+        <activity
+            android:name=".activities.ChooseServerActivity"
+            android:label="@string/choose_server"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.UserProfileActivity"
+            android:label="@string/information" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/settings"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities.CreateGroupActivity"
+            android:label="@string/new_group" />
+        <activity
+            android:name=".activities.GroupInfoActivity"
+            android:label="@string/information" />
+        <activity
+            android:name=".activities.AddAttachmentActivity"
+            android:label="@string/add_files" />
+        <activity
+            android:name=".activities.ContactsActivity"
+            android:label="@string/contacts" />
+        <activity
+            android:name=".activities.FilesActivity"
+            android:label="@string/files" />
+        <activity
+            android:name=".activities.ContactGroupsActivity"
+            android:label="@string/contact_groups" />
+        <activity
+            android:name=".activities.ContactGroupEditActivity"
+            android:label="@string/new_contact_group" />
+        <activity
+            android:name=".activities.DialogActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.ChatEditActivity"
+            android:label="@string/chat_editing" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:label="@string/sign_up" />
+        <activity
+            android:name=".activities.SecuritySettingsActivity"
+            android:label="@string/security" />
+        <activity
+            android:name=".activities.SettingsPinActivity"
+            android:label="@string/pin" />
+        <activity
+            android:name=".activities.EnterPinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ChannelActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity
+            android:name=".activities.ChannelInfoActivity"
+            android:label="@string/information" />
+        <activity
+            android:name=".activities.ChannelEditActivity"
+            android:label="@string/edit" />
+        <activity
+            android:name=".activities.ChannelUsersActivity"
+            android:label="@string/subscribers" />
+        <activity
+            android:name=".activities.DeveloperOptionsActivity"
+            android:label="@string/developer_options" />
+        <activity
+            android:name=".activities.CreatePollActivity"
+            android:label="@string/create_poll" />
+        <activity
+            android:name=".activities.CheckEncryptionKeyActivity"
+            android:label="@string/encryption_key_verification" />
+        <activity
+            android:name=".activities.GlobalSearchActivity"
+            android:label="@string/search" />
+        <activity
+            android:name=".activities.ConversationGalleryActivity"
+            android:label="@string/gallery" />
+        <activity android:name=".activities.VotedUserListActivity" />
+        <activity
+            android:name=".activities.MessagesSettingsActivity"
+            android:label="@string/messages" />
+        <activity
+            android:name=".activities.SessionsActivity"
+            android:label="@string/sessions" />
+        <activity
+            android:name=".activities.PDFViewerActivity"
+            android:label="@string/pdf_viewer" />
+        <activity
+            android:name=".activities.GetPhoneContactsActivity"
+            android:label="@string/phone_contacts" />
+        <activity android:name=".activities.RegisteredActivity" />
+        <activity
+            android:name=".activities.ChangeEmailActivity"
+            android:label="@string/change_email"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activities.ChangePhoneActivity"
+            android:label="@string/change_phone"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activities.ChangeAboutActivity"
+            android:label="@string/about"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activities.ChangeNameActivity"
+            android:label="@string/change_name" />
+        <activity
+            android:name=".activities.SelectChatActivity"
+            android:label="@string/select_chat" />
+        <activity
+            android:name=".activities.NodeInfoActivity"
+            android:label="@string/server_info" />
+        <activity
+            android:name=".activities.GetQRCodeForLoginActivity"
+            android:label="@string/qr_code" />
+        <activity
+            android:name=".activities.EditContactActivity"
+            android:label="@string/edit_contact" />
+        <activity
+            android:name=".activities.NotificationsSettingsActivity"
+            android:label="@string/notifications" />
+        <activity
+            android:name=".activities.SetPassphraseActivity"
+            android:label="@string/passphrase" />
+        <activity
+            android:name=".activities.EnterPassphraseActivity"
+            android:screenOrientation="portrait" />
+
+
+        <!--This need to open file-->
+        <provider
+            android:name=".utils.GenericFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <!--This need to open file-->
+
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".services.ReplyNotificationIntentService" />
+        <service android:name=".services.AsymmetricKeysGeneratorService" />
+
+        <receiver android:name=".services.ReplyNotificationReceiver" />
+    </application>
+
+</manifest>

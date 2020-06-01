@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.ymessenger.app.viewmodels.SignUpViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/simple_toolbar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/choose_server_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_title"
+                        style="@style/Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/gapMedium"
+                        android:text="@string/server"
+                        app:layout_constraintBottom_toTopOf="@id/tvServerName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btnChangeServer" />
+
+                    <TextView
+                        android:id="@+id/tvServerName"
+                        style="@style/Text.Primary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/gapMedium"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/automatically"
+                        app:layout_constraintBottom_toBottomOf="@id/btnChangeServer"
+                        app:layout_constraintEnd_toStartOf="@id/btnChangeServer"
+                        app:layout_constraintStart_toStartOf="@id/server_title"
+                        app:layout_constraintTop_toBottomOf="@id/server_title" />
+
+                    <TextView
+                        android:id="@+id/tvConnectionStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/connection"
+                        app:layout_constraintStart_toStartOf="@id/tvServerName"
+                        app:layout_constraintTop_toBottomOf="@id/tvServerName" />
+
+                    <Button
+                        android:id="@+id/btnChangeServer"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/gapLarge"
+                        android:layout_marginEnd="@dimen/gapMedium"
+                        android:text="@string/change"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/delimiter"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/gapLarge"
+                        android:background="@drawable/delimiter"
+                        app:layout_constraintEnd_toEndOf="@id/btnChangeServer"
+                        app:layout_constraintStart_toStartOf="@id/server_title"
+                        app:layout_constraintTop_toBottomOf="@id/btnChangeServer" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/gapMedium"
+                    android:textColor="@color/colorMaterialRed500"
+                    isGone="@{viewModel.isUserRegistrationAllowed}"
+                    android:text="@string/registration_on_this_server_is_prohibited" />
+
+
+                <LinearLayout
+                    isGone="@{!viewModel.isUserRegistrationAllowed}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/first_name_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:hint="@string/first_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName|textCapWords"
+                            android:text="@={viewModel.firstName}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/last_name_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:hint="@string/last_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName|textCapWords"
+                            android:text="@={viewModel.lastName}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/phone_input_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:orientation="horizontal"
+                        app:isGone="@{!viewModel.showPhone}">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/code">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPhoneCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="+1234567890"
+                                android:ems="3"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:maxLength="5"
+                                android:text="@={viewModel.phoneCode}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/phone_number_input_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/phone"
+                            android:visibility="visible">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPhoneNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="1234567890"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:text="@={viewModel.phoneNumber}" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvOrLabel"
+                        style="@style/Text.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:text="@string/or"
+                        app:isGone="@{!viewModel.showOrLabel}" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/email_input_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:hint="@string/email"
+                        app:isGone="@{!viewModel.showEmail}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:text="@={viewModel.email}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnSendVCode"
+                        style="@style/ButtonTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="@{() -> viewModel.sendVerificationCode()}"
+                        android:text="@string/send_verification_code"
+                        android:visibility="gone"
+                        app:isGone="@{!viewModel.showButtonSendVCode}" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/vcode_input_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/gapSmall"
+                        android:hint="@string/verification_code"
+                        android:visibility="gone"
+                        app:isGone="@{!viewModel.showVerificationCode}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etVCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="@integer/verification_code_length"
+                            android:text="@={viewModel.verificationCode}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnSignUp"
+                        style="@style/Button.Secondary.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/gapMedium"
+                        android:layout_marginBottom="@dimen/gapLarge"
+                        android:enabled="@{viewModel.registerAvailable}"
+                        android:onClick="@{() -> viewModel.signUp()}"
+                        android:text="@string/sign_up" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

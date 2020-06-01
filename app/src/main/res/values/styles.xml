@@ -1,0 +1,152 @@
+<!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="BaseTheme">
+
+    </style>
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="Button.Primary">
+        <item name="android:background">@drawable/primary_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Button.Secondary">
+        <item name="android:background">@drawable/secondary_button</item>
+        <item name="android:textColor">@color/secondary_button_text_color</item>
+    </style>
+
+    <style name="Button.Secondary.Small">
+        <item name="android:background">@drawable/secondary_button_small</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ButtonTextView" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <!--background with underline-->
+        <!--<item name="android:background">@drawable/background_button_text_view</item>-->
+        <item name="android:padding">@dimen/gapSmall</item>
+    </style>
+
+    <style name="ButtonTextView.Danger">
+        <item name="android:textColor">@color/colorMaterialRed500</item>
+    </style>
+
+    <style name="ButtonTextView.Black">
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="ButtonTextWithImage" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:drawablePadding">@dimen/gapMedium</item>
+        <item name="android:padding">@dimen/gapMedium</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="PinDigitButton" parent="Widget.AppCompat.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:padding">@dimen/gapSmall</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">@dimen/pinButtonSize</item>
+        <item name="android:layout_height">@dimen/pinButtonSize</item>
+        <item name="android:layout_margin">@dimen/gapMedium</item>
+    </style>
+
+    <style name="Text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Primary">
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
+    <style name="Title" parent="TextAppearance.AppCompat">
+        <item name="android:textAppearance">@style/Text.Primary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SearchEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/search_edit_text_background</item>
+        <item name="android:paddingStart">@dimen/search_et_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/search_et_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/search_et_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/search_et_vertical_padding</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:imeOptions">actionSearch</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:paddingStart">@dimen/gapMedium</item>
+        <item name="android:paddingEnd">@dimen/gapMedium</item>
+        <item name="android:paddingTop">@dimen/gapSmall</item>
+        <item name="android:paddingBottom">@dimen/gapSmall</item>
+    </style>
+
+    <style name="EditText.Rounded">
+        <item name="android:background">@drawable/background_message_input</item>
+    </style>
+
+    <style name="ToolbarColoredHomeButton" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+    </style>
+
+    <style name="RightCheckBox">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:padding">@dimen/gapMedium</item>
+        <item name="android:background">@drawable/bottom_line</item>
+    </style>
+
+    <style name="SecuritySettingsSwitch">
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">@dimen/gapMedium</item>
+    </style>
+
+</resources>

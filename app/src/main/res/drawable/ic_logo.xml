@@ -1,0 +1,27 @@
+<!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector android:height="24dp"
+    android:viewportHeight="1920"
+    android:viewportWidth="1920"
+    android:width="24dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M868,1780c-61,-32 -92,-82 -96,-155 -5,-70 9,-106 64,-167 33,-37 64,-118 64,-168 0,-53 -31,-130 -71,-176 -49,-57 -54,-70 -64,-154 -16,-144 -103,-230 -245,-244 -68,-6 -97,-17 -139,-51 -100,-85 -92,-218 17,-302 39,-29 51,-33 106,-33 52,0 70,5 109,29 53,35 87,92 87,149 0,116 77,226 181,256 66,20 92,20 158,0 61,-18 123,-70 152,-127 11,-21 24,-72 28,-112 15,-129 81,-195 195,-195 63,0 98,14 137,57 80,86 77,195 -8,275 -36,34 -74,48 -148,55 -129,11 -235,112 -235,226 0,59 -26,125 -69,173 -41,47 -71,121 -71,174 0,55 31,129 75,181 51,60 68,116 53,182 -11,52 -55,108 -102,131 -47,22 -132,20 -178,-4z"
+        android:strokeColor="#00000000" />
+</vector>

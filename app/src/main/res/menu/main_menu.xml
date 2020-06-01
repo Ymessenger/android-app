@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mi_create_group_chat"
+        android:title="@string/create_group_chat" />
+
+    <item
+        android:id="@+id/mi_tasks"
+        android:visible="false"
+        android:title="@string/tasks" />
+
+    <item
+        android:id="@+id/mi_files"
+        android:visible="false"
+        android:title="@string/files" />
+
+    <item
+        android:id="@+id/mi_contacts"
+        android:title="@string/contacts" />
+
+    <item
+        android:id="@+id/mi_contact_groups"
+        android:title="@string/contact_groups" />
+
+    <item
+        android:id="@+id/mi_send_invite"
+        android:title="@string/send_invite" />
+
+    <item
+        android:id="@+id/mi_information"
+        android:title="@string/information" />
+
+    <item
+        android:id="@+id/mi_settings"
+        android:title="@string/settings" />
+</menu>

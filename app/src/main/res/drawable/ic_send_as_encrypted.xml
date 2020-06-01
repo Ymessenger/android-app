@@ -1,0 +1,30 @@
+<!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:pathData="M6.292,12.5L6.25,41.667L68.75,50L6.25,58.333L6.292,87.5L93.75,50L6.292,12.5Z"
+        android:fillColor="#000000" />
+    <path
+        android:pathData="M91.538,68.91H90.128V66.09C90.128,62.197 86.969,59.039 83.077,59.039C79.185,59.039 76.026,62.197 76.026,66.09V68.91H74.615C73.064,68.91 71.795,70.179 71.795,71.731V85.833C71.795,87.385 73.064,88.654 74.615,88.654H91.538C93.09,88.654 94.359,87.385 94.359,85.833V71.731C94.359,70.179 93.09,68.91 91.538,68.91ZM78.846,66.09C78.846,63.749 80.736,61.859 83.077,61.859C85.418,61.859 87.308,63.749 87.308,66.09V68.91H78.846V66.09ZM85.897,78.782C85.897,80.333 84.628,81.603 83.077,81.603C81.526,81.603 80.257,80.333 80.257,78.782C80.257,77.231 81.526,75.962 83.077,75.962C84.628,75.962 85.897,77.231 85.897,78.782Z"
+        android:fillColor="#000000"
+        android:fillType="evenOdd" />
+</vector>

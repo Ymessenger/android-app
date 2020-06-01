@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:icon="@drawable/ic_message"
+        android:key="pref_messages"
+        android:title="@string/messages" />
+
+    <Preference
+        android:icon="@drawable/ic_notifications"
+        android:key="pref_notifications"
+        android:title="@string/notifications" />
+
+    <Preference
+        android:icon="@drawable/ic_security"
+        android:key="pref_security"
+        android:title="@string/security">
+
+        <!--<intent android:targetPackage="org.ymessenger.app"-->
+        <!--android:targetClass="org.ymessenger.app.activities.EnterActivity" />-->
+
+    </Preference>
+
+    <Preference
+        android:icon="@drawable/ic_server_blue"
+        android:key="pref_server"
+        android:title="@string/server_label" />
+
+    <Preference
+        android:icon="@drawable/ic_interface"
+        android:key="pref_user_interface"
+        android:title="@string/user_interface"
+        app:isPreferenceVisible="false" />
+
+    <Preference
+        android:icon="@drawable/ic_data"
+        android:key="pref_data"
+        android:title="@string/data"
+        app:isPreferenceVisible="false" />
+
+    <Preference
+        android:icon="@drawable/ic_support"
+        android:key="pref_support"
+        android:title="@string/support"
+        app:isPreferenceVisible="false" />
+
+    <Preference
+        android:icon="@drawable/ic_developer_mode"
+        android:key="pref_developer_options"
+        android:title="@string/developer_options"
+        app:isPreferenceVisible="false" />
+
+</PreferenceScreen>

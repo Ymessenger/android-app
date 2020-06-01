@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isExpanded"
+            type="boolean" />
+
+        <variable
+            name="node"
+            type="org.ymessenger.app.data.remote.entities.Node" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clServerItemRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingStart="@dimen/gapMedium"
+        android:paddingTop="@dimen/gapSmall"
+        android:paddingEnd="@dimen/gapMedium"
+        android:paddingBottom="@dimen/gapMedium">
+
+        <TextView
+            android:id="@+id/current_server_label"
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_server"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/ivServerImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivServerImage"
+            app:layout_constraintEnd_toEndOf="@+id/ivServerImage"
+            app:layout_constraintStart_toStartOf="@+id/ivServerImage"
+            app:layout_constraintTop_toTopOf="@+id/ivServerImage">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/no_photo" />
+
+            <TextView
+                android:id="@+id/tvPhotoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxLength="2"
+                android:text="@{node.getPhotoLabel()}"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="SN" />
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivServerImage"
+            android:layout_width="@dimen/server_image_size"
+            android:layout_height="@dimen/server_image_size"
+            android:layout_marginTop="@dimen/gapSmall"
+            app:imageUrl="@{node.getPhotoUrl()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/current_server_label" />
+
+        <TextView
+            android:id="@+id/tvServerName"
+            style="@style/Text.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gapMedium"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@{node.getDisplayName()}"
+            android:textStyle="bold"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/tvServerId"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/ivServerImage"
+            app:layout_constraintTop_toTopOf="@id/ivServerImage"
+            tools:text="Server name" />
+
+        <TextView
+            android:id="@+id/tvServerId"
+            style="@style/Text.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gapSmall"
+            android:layout_marginEnd="@dimen/gapMedium"
+            android:text="@{@string/short_id(node.tag)}"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvServerName"
+            app:layout_constraintEnd_toStartOf="@id/ivExpand"
+            app:layout_constraintStart_toEndOf="@id/tvServerName"
+            tools:text="(SRVTAG)" />
+
+        <ImageView
+            android:id="@+id/ivExpand"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_expand_more"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvServerName" />
+
+        <TextView
+            android:id="@+id/country_label"
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/county"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tvServerName"
+            app:layout_constraintTop_toBottomOf="@id/tvServerName" />
+
+        <TextView
+            android:id="@+id/tvCountry"
+            style="@style/Text.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gapSmall"
+            android:layout_marginEnd="@dimen/gapMedium"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{node.country ?? @string/no_info}"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/country_label"
+            app:layout_constraintEnd_toStartOf="@id/ivExpand"
+            app:layout_constraintStart_toEndOf="@id/country_label"
+            tools:text="RUS" />
+
+        <TextView
+            android:id="@+id/encryption_type_label"
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/encryption_type"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tvServerName"
+            app:layout_constraintTop_toBottomOf="@id/country_label" />
+
+        <TextView
+            android:id="@+id/tvEncryptionType"
+            style="@style/Text.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gapSmall"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            android:text="@{node.getEncryptionTypeLabel(context)}"
+            app:layout_constraintBaseline_toBaselineOf="@id/encryption_type_label"
+            app:layout_constraintEnd_toEndOf="@id/tvCountry"
+            app:layout_constraintStart_toEndOf="@id/encryption_type_label"
+            tools:text="Full" />
+
+        <LinearLayout
+            android:id="@+id/expandable_info_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:isGone="@{!isExpanded}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvServerName"
+            app:layout_constraintTop_toBottomOf="@id/encryption_type_label">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvIdentifier"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapSmall"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{node.tag}"
+                    android:textSize="12sp"
+                    tools:text="SRVTAG" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_deletion"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvPermanentlyDeleting"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapSmall"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{node.getPermanentlyDeletingLabel(context)}"
+                    android:textSize="12sp"
+                    tools:text="@string/full_deletion" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_registration"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvRegistration"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapSmall"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{node.getRegistrationLabel(context)}"
+                    android:textSize="12sp"
+                    tools:text="@string/allowed" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/registration_method"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvRegistrationMethod"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/gapSmall"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{node.getRegistrationMethodLabel(context)}"
+                    android:textSize="12sp"
+                    tools:text="@string/phone_required" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapSmall"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/support_email"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvSupportEmail"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{node.supportEmail ?? @string/not_specified}"
+                    android:textSize="12sp"
+                    tools:text="support@email.com" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapXXSmall"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/admin_email"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvAdminEmail"
+                    style="@style/Text.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="email"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{node.adminEmail ?? @string/not_specified}"
+                    android:textSize="12sp"
+                    tools:text="admin@email.com" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gapSmall"
+                android:text="@string/server_info"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                style="@style/Text.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{node.about}"
+                android:textSize="12sp"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper, magna ut aliquet interdum, velit tellus sollicitudin dolor, eu mattis risus enim in lectus. Sed mattis purus sed metus viverra, sed elementum ante ullamcorper. Sed convallis mi vitae mi malesuada elementum. Quisque varius quam lectus, nec laoreet metus aliquet quis." />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

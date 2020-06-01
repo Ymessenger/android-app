@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of Y messenger.
+  ~
+  ~ Y messenger is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Y messenger is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundGray"
+    android:padding="@dimen/gapMedium">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivGroupPhoto"
+        app:layout_constraintEnd_toEndOf="@+id/ivGroupPhoto"
+        app:layout_constraintStart_toStartOf="@+id/ivGroupPhoto"
+        app:layout_constraintTop_toTopOf="@+id/ivGroupPhoto">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_photo" />
+
+        <TextView
+            android:id="@+id/tvPhotoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLength="2"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:text="AC" />
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivGroupPhoto"
+        android:layout_width="@dimen/user_avatar_size_l"
+        android:layout_height="@dimen/user_avatar_size_l"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGroupName"
+        style="@style/Text.Primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gapMedium"
+        android:layout_marginEnd="@dimen/gapMedium"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tvSubscribersCount"
+        app:layout_constraintEnd_toStartOf="@id/btnFavourite"
+        app:layout_constraintStart_toEndOf="@id/ivGroupPhoto"
+        app:layout_constraintTop_toTopOf="@id/ivGroupPhoto"
+        tools:text="Amazing channel"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tvSubscribersCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="@id/ivGroupPhoto"
+        app:layout_constraintEnd_toEndOf="@id/tvGroupName"
+        app:layout_constraintStart_toStartOf="@id/tvGroupName"
+        app:layout_constraintTop_toBottomOf="@id/tvGroupName"
+        tools:text="12345 subscribers" />
+
+    <ImageButton
+        android:id="@+id/btnFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gapMedium"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/gapSmall"
+        android:src="@drawable/ic_star_border"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/tvSubscribersCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvGroupName" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gapMedium"
+        android:columnCount="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivGroupPhoto">
+
+        <TextView
+            android:id="@+id/tvAboutLabel"
+            style="@style/Text.Primary"
+            android:layout_width="@dimen/user_avatar_size_l"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/about_group" />
+
+        <TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="@dimen/gapMedium"
+            android:ellipsize="end"
+            android:maxLines="5"
+            tools:text="About channel info\n long long text" />
+
+        <TextView
+            android:id="@+id/tvTagLabel"
+            style="@style/Text.Primary"
+            android:layout_width="@dimen/user_avatar_size_l"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/tag" />
+
+        <TextView
+            android:id="@+id/tvTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="@dimen/gapMedium"
+            android:ellipsize="end"
+            android:maxLines="5"
+            tools:text="1234567890" />
+
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
