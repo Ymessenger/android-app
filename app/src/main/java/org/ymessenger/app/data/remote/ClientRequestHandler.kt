@@ -24,6 +24,7 @@ import org.ymessenger.app.data.mappers.KeysMapper
 import org.ymessenger.app.data.remote.clientRequests.GetKeys
 import org.ymessenger.app.data.remote.clientResponses.EncryptedData
 import org.ymessenger.app.data.remote.clientResponses.Error
+import org.ymessenger.app.data.remote.requests.GetDevicesPrivateKeys
 import org.ymessenger.app.data.repositories.KeysRepository
 import org.ymessenger.app.helpers.EncryptHelper
 import org.ymessenger.app.helpers.EncryptionWrapper
@@ -37,7 +38,18 @@ class ClientRequestHandler(
     private val keysMapper: KeysMapper
 ) {
 
+    private var currentUserId: Long? = null
+
+    fun setCurrentUserId(userId: Long?) {
+        currentUserId = userId
+    }
+
     fun getKeys(getKeys: GetKeys) {
+        if (currentUserId == null) {
+            sendError("This client isn't ready for keys exchanging", getKeys)
+            return
+        }
+
         if (!encryptionWrapper.isInitialized()) {
             sendError("YEncrypt is not initialized", getKeys)
             return
@@ -50,58 +62,85 @@ class ClientRequestHandler(
             return
         }
 
-        // 1. Get all my private keys
-        // 2. Generate symmetric key
-        // 3. Encrypt PrivateKeys on my symmetric key
-        // 4. Encrypt symmetric key on received public key and sign by mine
-        // 5. Send all it back with received requestId
+        val gson = Gson()
 
-        keysRepository.getFullKeys { fullKeys ->
-            if (fullKeys.isNotEmpty()) {
-                Log.d(TAG, "${fullKeys.size} fullKeys found")
-                val signKey = getSignKey(fullKeys) ?: return@getFullKeys
-
-                val asymmetricKeys = fullKeys.map { keysMapper.fromDb(it) }
-
-                val gson = Gson()
-                val keysJson = gson.toJson(asymmetricKeys)
-                val keysJsonBytes = keysJson.toByteArray()
-
+        // First of all, we must verify the sign to be sure that request came from our account
+        keysRepository.getKeysByUser(currentUserId!!, getKeys.signKeyId) { signKeys ->
+            if (signKeys != null) {
                 try {
-                    val symmetricKeyWrapper = keysGeneratorHelper.getSymmetricKey()
+                    val signedData = EncryptHelper.base64ToBytes(getKeys.sign)
+                    yEncrypt.publicSignKeyToReceive = signKeys.publicKey
+                    val decryptedMsg = yEncrypt.veryfiMsg(signedData)
+                    val signDataJson = String(decryptedMsg.msg)
+                    val signData = gson.fromJson(signDataJson, GetDevicesPrivateKeys.SignData::class.java)
+                    if (signData.publicKey == getKeys.publicKey && signData.signKeyId == getKeys.signKeyId) {
+                        // Sign is verified. Move on
 
-                    yEncrypt.publicEncryptKeyToSend = EncryptHelper.base64ToBytes(getKeys.publicKey)
-                    yEncrypt.privateSignKeyToSend = signKey.privateKey
+                        // 1. Get all my private keys
+                        // 2. Generate symmetric key
+                        // 3. Encrypt PrivateKeys on my symmetric key
+                        // 4. Encrypt symmetric key on received public key and sign by mine
+                        // 5. Send all it back with received requestId
 
-                    val lifeTime = 1000L
+                        keysRepository.getFullKeys { fullKeys ->
+                            if (fullKeys.isNotEmpty()) {
+                                Log.d(TAG, "${fullKeys.size} fullKeys found")
+                                val signKey = getSignKey(fullKeys) ?: return@getFullKeys
 
-                    val encryptedSymmetricKey =
-                        yEncrypt.encrypKeysMsg(1, lifeTime, symmetricKeyWrapper.key)
-                    val encryptedSymmetricKeyBase64 =
-                        EncryptHelper.bytesToBase64(encryptedSymmetricKey)
+                                val asymmetricKeys = fullKeys.map { keysMapper.fromDb(it) }
 
-                    // Encrypt private keys with symmetric key
-                    yEncrypt.setSymmetricEncryptKey(symmetricKeyWrapper.key)
-                    val encData = yEncrypt.encryptSecretMsg(1, 0, lifeTime, keysJsonBytes)
-                    val encryptedDataBase64 = EncryptHelper.bytesToBase64(encData)
+                                val keysJson = gson.toJson(asymmetricKeys)
+                                val keysJsonBytes = keysJson.toByteArray()
+
+                                try {
+                                    val symmetricKeyWrapper = keysGeneratorHelper.getSymmetricKey()
+
+                                    yEncrypt.publicEncryptKeyToSend = EncryptHelper.base64ToBytes(getKeys.publicKey)
+                                    yEncrypt.privateSignKeyToSend = signKey.privateKey
+
+                                    val lifeTime = 1000L
+
+                                    val encryptedSymmetricKey =
+                                        yEncrypt.encrypKeysMsg(1, lifeTime, symmetricKeyWrapper.key)
+                                    val encryptedSymmetricKeyBase64 =
+                                        EncryptHelper.bytesToBase64(encryptedSymmetricKey)
+
+                                    // Encrypt private keys with symmetric key
+                                    yEncrypt.setSymmetricEncryptKey(symmetricKeyWrapper.key)
+                                    val encData = yEncrypt.encryptSecretMsg(1, 0, lifeTime, keysJsonBytes)
+                                    val encryptedDataBase64 = EncryptHelper.bytesToBase64(encData)
 
 
-                    val encryptedData = EncryptedData(
-                        encryptedSymmetricKeyBase64,
-                        encryptedDataBase64,
-                        EncryptHelper.bytesToBase64(signKey.publicKey),
-                        getKeys.requestId
-                    )
+                                    val encryptedData = EncryptedData(
+                                        encryptedSymmetricKeyBase64,
+                                        encryptedDataBase64,
+                                        EncryptHelper.bytesToBase64(signKey.publicKey),
+                                        getKeys.requestId
+                                    )
 
-                    keysRepository.sendKeysToAnotherDevices(encryptedData)
+                                    keysRepository.sendKeysToAnotherDevices(encryptedData)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Failed to send private keys to other devices")
+                                    e.printStackTrace()
+
+                                    sendError("Failed to send private keys", getKeys)
+                                }
+                            } else {
+                                sendError("There is no private keys on this device", getKeys)
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "Sign is not verified! Abort")
+                        sendError("Sign is not verified! Abortion.", getKeys)
+                    }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to send private keys to other devices")
+                    sendError("Failed to verify request data", getKeys)
                     e.printStackTrace()
-
-                    sendError("Failed to send private keys", getKeys)
+                    return@getKeysByUser
                 }
             } else {
-                sendError("There is no private keys on this device", getKeys)
+                Log.e(TAG, "Failed to get public sign key")
+                sendError("Failed to verify request: Can't get sign key", getKeys)
             }
         }
     }

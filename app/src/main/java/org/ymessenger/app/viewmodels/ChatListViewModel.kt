@@ -24,6 +24,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import org.ymessenger.app.R
 import org.ymessenger.app.data.ConversationType
 import org.ymessenger.app.data.local.db.entities.ChatPreview
@@ -36,11 +37,13 @@ import org.ymessenger.app.data.remote.WSResponse
 import org.ymessenger.app.data.remote.WebSocketService
 import org.ymessenger.app.data.remote.entities.Token
 import org.ymessenger.app.data.remote.requests.DeleteConversation
+import org.ymessenger.app.data.remote.requests.GetDevicesPrivateKeys
 import org.ymessenger.app.data.remote.requests.Login
 import org.ymessenger.app.data.remote.responses.ResultResponse
 import org.ymessenger.app.data.repositories.*
 import org.ymessenger.app.helpers.AuthorizationManager
 import org.ymessenger.app.helpers.EncryptHelper
+import org.ymessenger.app.helpers.EncryptionWrapper
 import org.ymessenger.app.helpers.SettingsHelper
 import org.ymessenger.app.interfaces.SuccessErrorCallback
 import org.ymessenger.app.utils.SingleLiveEvent
@@ -56,7 +59,8 @@ class ChatListViewModel(
     private val settingsHelper: SettingsHelper,
     private val favoriteConversationRepository: FavoriteConversationRepository,
     private val userActionRepository: UserActionRepository,
-    private val contactRepository: ContactRepository
+    private val contactRepository: ContactRepository,
+    private val encryptionWrapper: EncryptionWrapper
 ) : BaseViewModel() {
 
     val currentUser: LiveData<User>
@@ -203,26 +207,65 @@ class ChatListViewModel(
         // nobody can send us an encrypted message
         val isSign = false
         keysRepository.getMyLastKey(userId, isSign, object : KeysRepository.GetKeyResult {
-            override fun result(keys: Keys) {
-                Log.d(TAG, "There is my asymmetric keys: keyId = ${keys.id}")
+            override fun result(encryptionKeys: Keys) {
+                Log.d(TAG, "There is my asymmetric keys: keyId = ${encryptionKeys.id}")
 
                 // Checking for keys lifetime and if it is expired it's need to generate new keys
-                if (EncryptHelper.isExpired(keys)) {
+                if (EncryptHelper.isExpired(encryptionKeys)) {
                     Log.d(TAG, "My asymmetric keys are expired. Generating new one...")
                     generateShortKeys()
                 } else {
-                    keysRepository.getKeysFromOtherDevices(
-                        EncryptHelper.bytesToBase64(keys.publicKey),
-                        object : SuccessErrorCallback {
-                            override fun success() {
-//                            showToast("Request 'GetDevicePrivateKeys' was sent")
-                            }
+                    // Ask for asymmetric keys from other devices
+                    keysRepository.getMyLastKey(userId, true, object : KeysRepository.GetKeyResult {
+                        override fun result(signKeys: Keys) {
+                            try {
+                                val yEncrypt = encryptionWrapper.getYEncrypt()
 
-                            override fun error(error: ResultResponse) {
-//                            showToast("Failed to send request 'GetDevicePrivateKeys'. Message: ${error.message}")
+                                val publicKey = EncryptHelper.bytesToBase64(encryptionKeys.publicKey)
+                                val signKeyId = signKeys.id
+
+                                // Sign the data
+                                val signData = GetDevicesPrivateKeys.SignData(publicKey, signKeyId)
+                                val gson = Gson()
+                                val signDataJson = gson.toJson(signData)
+                                val signDataJsonBytes = signDataJson.toByteArray()
+                                yEncrypt.privateSignKeyToSend = signKeys.privateKey
+                                val signedData = yEncrypt.signMsg(1, 0, 0, signDataJsonBytes)
+                                val sign = EncryptHelper.bytesToBase64(signedData)
+
+                                // Make a delay for 500 ms to prevent getting "too many requests" error
+                                Handler().postDelayed({
+                                    keysRepository.getKeysFromOtherDevices(
+                                        publicKey,
+                                        signKeyId,
+                                        sign,
+                                        object : SuccessErrorCallback {
+                                            override fun success() {
+                                                // nothing
+                                            }
+
+                                            override fun error(error: ResultResponse) {
+                                                // nothing
+                                            }
+                                        })
+                                }, 500)
+                                setPrivateEncryptKeyToNotificationHandlerEvent.postValue(encryptionKeys.privateKey)
+                            } catch (e: Exception) {
+                                Log.e(
+                                    TAG,
+                                    "Failed to send request for asymmetric keys from other devices"
+                                )
+                                e.printStackTrace()
                             }
-                        })
-                    setPrivateEncryptKeyToNotificationHandlerEvent.postValue(keys.privateKey)
+                        }
+
+                        override fun error() {
+                            Log.e(
+                                TAG,
+                                "Can't get asymmetric keys from other devices: Sign keys not found"
+                            )
+                        }
+                    })
                 }
             }
 
@@ -322,7 +365,8 @@ class ChatListViewModel(
         private val settingsHelper: SettingsHelper,
         private val favoriteConversationRepository: FavoriteConversationRepository,
         private val userActionRepository: UserActionRepository,
-        private val contactRepository: ContactRepository
+        private val contactRepository: ContactRepository,
+        private val encryptionWrapper: EncryptionWrapper
     ) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -336,7 +380,8 @@ class ChatListViewModel(
                 settingsHelper,
                 favoriteConversationRepository,
                 userActionRepository,
-                contactRepository
+                contactRepository,
+                encryptionWrapper
             ) as T
         }
     }

@@ -696,7 +696,8 @@ object Injection {
             provideSettingsHelper(appBase),
             provideFavoriteConversationRepository(appBase),
             provideUserActionRepository(appBase),
-            provideContactRepository(appBase)
+            provideContactRepository(appBase),
+            provideEncryptionWrapper(appBase)
         )
     }
 

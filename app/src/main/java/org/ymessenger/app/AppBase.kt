@@ -22,6 +22,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.iid.FirebaseInstanceId
@@ -190,6 +191,10 @@ class AppBase : Application(), LifecycleObserver {
             Injection.provideUserRepository(this),
             Injection.provideUserMapper()
         )
+
+        authorizationManager.authorizedEvent.observeForever {
+            clientRequestHandler.setCurrentUserId(authorizationManager.getAuthorizedUserId())
+        }
 
         notificationHandler.onNewSession = {
             MyNotificationManager.showNewSessionNotification(this, it)

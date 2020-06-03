@@ -247,8 +247,8 @@ class KeysRepository private constructor(
             })
     }
 
-    fun getKeysFromOtherDevices(publicKey: String, callback: SuccessErrorCallback) {
-        val getDevicesPrivateKeys = GetDevicesPrivateKeys(publicKey)
+    fun getKeysFromOtherDevices(publicKey: String, signKeyId: Long, sign: String, callback: SuccessErrorCallback) {
+        val getDevicesPrivateKeys = GetDevicesPrivateKeys(publicKey, signKeyId, sign)
         webSocketService.getDevicesPrivateKeys(
             getDevicesPrivateKeys,
             object : WebSocketService.ResponseCallback<ResultResponse> {

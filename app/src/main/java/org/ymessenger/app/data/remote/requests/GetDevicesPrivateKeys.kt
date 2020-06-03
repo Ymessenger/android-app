@@ -22,6 +22,18 @@ import org.ymessenger.app.data.remote.WSRequest
 
 class GetDevicesPrivateKeys(
     @SerializedName("PublicKey")
-    val publicKey: String
+    val publicKey: String,
+    @SerializedName("SignKeyId")
+    val signKeyId: Long,
+    @SerializedName("Sign")
+    val sign: String
 ) : WSRequest(RequestType.GET_DEVICES_PRIVATE_KEYS) {
+
+    class SignData(
+        @SerializedName("PublicKey")
+        val publicKey: String,
+        @SerializedName("SignKeyId")
+        val signKeyId: Long
+    )
+
 }

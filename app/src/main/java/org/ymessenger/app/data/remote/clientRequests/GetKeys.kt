@@ -23,4 +23,10 @@ import org.ymessenger.app.data.remote.ClientRequest
 class GetKeys : ClientRequest() {
     @SerializedName("PublicKey")
     lateinit var publicKey: String
+
+    @SerializedName("SignKeyId")
+    var signKeyId: Long = 0
+
+    @SerializedName("Sign")
+    lateinit var sign: String
 }
