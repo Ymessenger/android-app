@@ -37,7 +37,8 @@ data class User(
     @ColumnInfo(name = "tag") var tag: String?,
     @ColumnInfo(name = "privacy") var privacy: String?,
     @ColumnInfo(name = "confirmed") var confirmed: Boolean,
-    @ColumnInfo(name = "banned") var banned: Boolean
+    @ColumnInfo(name = "banned") var banned: Boolean,
+    @ColumnInfo(name = "node_id") var nodeId: Long?
 ) {
     val fullName: String?
         get(): String? {

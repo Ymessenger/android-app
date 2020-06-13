@@ -98,6 +98,7 @@ abstract class WSRequest(
         const val DELETE_KEYS = 101
         const val GET_RANDOM_SEQUENCE = 102
         const val GET_USER_KEYS = 105
+        const val CHANGE_NODE = 200
         const val VERIFY_NODE = 201
         const val SET_CONNECTION_ENCRYPTED = 255
     }

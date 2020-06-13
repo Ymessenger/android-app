@@ -72,6 +72,8 @@ class DialogViewModel(
     private val userActionRepository: UserActionRepository
 ) : BaseViewModel(), ConversationViewModel {
 
+    val currentUserId = authorizationManager.getAuthorizedUserId() ?: 0
+
     private val updateUserEvent = SingleLiveEvent<Void>().apply { call() }
     val userModel = Transformations.switchMap(updateUserEvent) {
         userRepository.getUserModel(userId)
@@ -109,15 +111,15 @@ class DialogViewModel(
 
     val generateShortKeysEvent = SingleLiveEvent<Void>()
 
-    private val lastSymmetricKey = Transformations.switchMap(dialog) {
+    private val myLastSymmetricKey = Transformations.switchMap(dialog) {
         it?.let {
-            symmetricKeyRepository.getLastKeyForDialog(it.id)
+            symmetricKeyRepository.getLastKeyForDialogByUser(it.id, currentUserId)
         }
     }
 
     private val myLastSignKeys = keysRepository.getMyLastKeys(true)
 
-    private var _lastSymmetricKey: SymmetricKey? = null
+    private var _myLastSymmetricKey: SymmetricKey? = null
     private var _myLastSignKeys: Keys? = null
 
     val openUserProfileEvent = SingleLiveEvent<Long>()
@@ -164,11 +166,11 @@ class DialogViewModel(
         }
 
         // If we have new symmetric key, then we need to invalidate messages
-        lastSymmetricKey.observeForever {
+        myLastSymmetricKey.observeForever {
             if (it != null) {
                 invalidateMessagesEvent.call()
             }
-            _lastSymmetricKey = it
+            _myLastSymmetricKey = it
         }
         myLastSignKeys.observeForever {
             _myLastSignKeys = it
@@ -265,8 +267,7 @@ class DialogViewModel(
     fun checkForKeys() {
         // We are looking for ENCRYPTION (not sign) keys, because if we don't have encryption key
         // nobody can send us an encrypted message
-        val currentUserId = authorizationManager.getAuthorizedUserId()
-        if (currentUserId == null) {
+        if (currentUserId == 0L) {
             Log.e(TAG, "Current user id is empty")
             return
         }
@@ -376,7 +377,7 @@ class DialogViewModel(
         try {
             val yEncrypt = encryptionWrapper.getYEncrypt()
 
-            val lastSymmetricKey = _lastSymmetricKey
+            val lastSymmetricKey = _myLastSymmetricKey
                 ?: throw NullPointerException("Symmetric key is null")
 
             val myLastSignKeys =
@@ -485,7 +486,7 @@ class DialogViewModel(
             // where we used relevant keys (they almost can't be expired)
             val mySignKeys = _myLastSignKeys ?: throw NullPointerException("Sign key is null")
             val symmetricKey =
-                _lastSymmetricKey ?: throw NullPointerException("Symmetric key is null")
+                _myLastSymmetricKey ?: throw NullPointerException("Symmetric key is null")
 
             if (EncryptHelper.isExpired(mySignKeys)) {
                 showError(R.string.sign_keys_are_expired)
@@ -679,11 +680,12 @@ class DialogViewModel(
                                     dialogId,
                                     symmetricKeyWrapper.key,
                                     symmetricKeyWrapper.generationTime,
-                                    symmetricKeyWrapper.lifetime
+                                    symmetricKeyWrapper.lifetime,
+                                    currentUserId
                                 )
                             symmetricKeyRepository.saveSymmetricKey(symmetricKey)
 
-                            _lastSymmetricKey = symmetricKey
+                            _myLastSymmetricKey = symmetricKey
                             callback.invoke(symmetricKey)
                         }
 
@@ -719,7 +721,7 @@ class DialogViewModel(
             val yEncrypt = encryptionWrapper.getYEncrypt()
 
             val symmetricKey =
-                _lastSymmetricKey ?: throw NullPointerException("Symmetric key is null")
+                _myLastSymmetricKey ?: throw NullPointerException("Symmetric key is null")
             val mySignKeys = _myLastSignKeys ?: throw NullPointerException("Sign key is null")
 
             if (EncryptHelper.isExpired(mySignKeys)) {

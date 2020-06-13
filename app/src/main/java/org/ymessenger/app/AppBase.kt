@@ -22,10 +22,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.firebase.iid.FirebaseInstanceId
+import org.ymessenger.app.data.Limitations
 import org.ymessenger.app.data.local.db.AppDatabase
 import org.ymessenger.app.data.remote.ClientRequestHandler
 import org.ymessenger.app.data.remote.LicensorWSService
@@ -80,6 +80,15 @@ class AppBase : Application(), LifecycleObserver {
         super.onCreate()
         Log.d(TAG, "onCreate")
         receiveToken()
+
+        // Generate passphrase at first launch
+        if (settingsHelper.isFirstLaunch() && settingsHelper.getYEncryptPass() == null) {
+            val passphrase = PassphraseGenerator.generate(this)
+            settingsHelper.setYEncryptPass(passphrase)
+
+            // TODO: AND THIS SHOULD BE REMOVED
+            settingsHelper.setAskedOldUsersToSetPassphrase()
+        }
 
         // TODO: THIS IS FOR OLD USERS ONLY. THIS SHOULD BE DELETED IN ONE OF NEXT UPDATES
         if (!settingsHelper.isFirstLaunch() && settingsHelper.getYEncryptPass() == null && !settingsHelper.getAskedOldUsersToSetPassphrase()) {

@@ -33,6 +33,9 @@ interface SymmetricKeyDao {
     @Query("SELECT * FROM symmetric_keys WHERE dialog_id = :dialogId ORDER BY generation_time DESC LIMIT 1")
     fun getSymmetricKeyByDialog(dialogId: Long): LiveData<SymmetricKey>
 
+    @Query("SELECT * FROM symmetric_keys WHERE dialog_id = :dialogId AND creator_user_id = :userId ORDER BY generation_time DESC LIMIT 1")
+    fun getLastSymmetricKeyByDialogAndUser(dialogId: Long, userId: Long): LiveData<SymmetricKey>
+
     @Query("SELECT * FROM symmetric_keys WHERE id = :keyId")
     fun getSymmetricKey(keyId: Long): LiveData<SymmetricKey>
 

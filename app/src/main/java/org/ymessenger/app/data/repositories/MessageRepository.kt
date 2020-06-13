@@ -380,7 +380,8 @@ class MessageRepository private constructor(
                                     dialogId,
                                     symmetricKey.key,
                                     symmetricKey.date,
-                                    symmetricKey.timeLife
+                                    symmetricKey.timeLife,
+                                    userId
                                 )
 
                                 executors.diskIO.execute {

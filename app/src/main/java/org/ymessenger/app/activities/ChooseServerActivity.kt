@@ -17,6 +17,7 @@
 
 package org.ymessenger.app.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -45,16 +46,45 @@ class ChooseServerActivity : BaseActivity() {
 
     private lateinit var viewModel: ServerListViewModel
 
+    private var mode = MODE_CONNECT
+
     companion object {
         private const val TAG = "ChooseServerActivity"
 
+        private const val ARG_MODE = "ARG_MODE"
+
+        private const val MODE_CONNECT = 0
+        private const val MODE_PICK = 1
+
+        const val RESULT_NODE_ID = "NODE_ID"
+        const val RESULT_NODE_URL = "NODE_URL"
+
         fun startActivity(context: Context) {
             context.startActivity(Intent(context, ChooseServerActivity::class.java))
+        }
+
+        private fun getIntent(context: Context, mode: Int): Intent {
+            val intent = Intent(context, ChooseServerActivity::class.java)
+            intent.putExtra(ARG_MODE, mode)
+
+            return intent
+        }
+
+        fun getIntentModeSelect(context: Context): Intent {
+            return getIntent(context, MODE_CONNECT)
+        }
+
+        fun getIntentModePick(context: Context): Intent {
+            return getIntent(context, MODE_PICK)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Obtain mode from intent
+        mode = intent.getIntExtra(ARG_MODE, MODE_CONNECT)
+
         val factory = Injection.provideServerListViewModelFactory(appBase)
         viewModel = ViewModelProviders.of(this, factory).get(ServerListViewModel::class.java)
         val binding: ActivityChooseServerBinding =
@@ -66,7 +96,7 @@ class ChooseServerActivity : BaseActivity() {
         initToolbar()
         val nodePagedAdapter = NodePagedAdapter { node ->
             // Skip if we clicked on selected server
-            if (node != viewModel.getCurrentNode().value) {
+            if (node.id != viewModel.getCurrentNode().value?.id) {
                 selectNode(node)
             } else {
                 showToast(R.string.this_server_is_already_selected)
@@ -106,6 +136,10 @@ class ChooseServerActivity : BaseActivity() {
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
+        }
+
+        if (isModePick()) {
+            fabDone.hide()
         }
 
         fabDone.setOnClickListener {
@@ -150,7 +184,16 @@ class ChooseServerActivity : BaseActivity() {
                 )
             )
             .setPositiveButton(R.string.yes) { _, _ ->
-                appBase.nodeManager.setCurrentNode(node)
+                if (isModePick()) {
+                    val resultData = Intent()
+                    resultData.putExtra(RESULT_NODE_ID, node.id)
+                    val nodeUrl = "${node.domains?.firstOrNull() ?: ""}:${node.clientsPort}"
+                    resultData.putExtra(RESULT_NODE_URL, nodeUrl)
+                    setResult(Activity.RESULT_OK, resultData)
+                    finish()
+                } else {
+                    appBase.nodeManager.setCurrentNode(node)
+                }
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -172,4 +215,6 @@ class ChooseServerActivity : BaseActivity() {
             current_server_layout.visibility = View.VISIBLE
         }
     }
+
+    private fun isModePick() = mode == MODE_PICK
 }

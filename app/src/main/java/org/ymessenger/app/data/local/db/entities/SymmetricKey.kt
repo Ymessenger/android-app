@@ -28,6 +28,7 @@ data class SymmetricKey(
     @ColumnInfo(name = "dialog_id") val dialogId: Long,
     @ColumnInfo(name = "data", typeAffinity = ColumnInfo.BLOB) var data: ByteArray,
     @ColumnInfo(name = "generation_time") val generationTime: Long,
-    @ColumnInfo(name = "lifetime") val lifetime: Long
+    @ColumnInfo(name = "lifetime") val lifetime: Long,
+    @ColumnInfo(name = "creator_user_id") val creatorUserId: Long
 ) {
 }

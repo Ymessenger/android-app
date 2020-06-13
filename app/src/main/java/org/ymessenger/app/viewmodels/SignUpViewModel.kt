@@ -366,7 +366,8 @@ class SignUpViewModel(
             null,
             false,
             false,
-            false
+            false,
+            null
         )
         val newUser = NewUser(user, vcode)
         startLoading(R.string.signing_up)

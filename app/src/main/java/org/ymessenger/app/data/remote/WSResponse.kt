@@ -48,6 +48,7 @@ open class WSResponse : CommunicationObject(TYPE_RESPONSE) {
         const val CHANNEL_USERS = 21
         const val ENCRYPTED_KEY = 22
         const val SEARCH_RESULT = 23
+        const val OPERATION_ID = 24
         const val POLL = 25
         const val GROUPS = 26
         const val CONTACTS = 27
@@ -115,6 +116,7 @@ open class WSResponse : CommunicationObject(TYPE_RESPONSE) {
         ResponseType.CHANNEL_USERS -> "Channel Users"
         ResponseType.ENCRYPTED_KEY -> "Encrypted Key"
         ResponseType.SEARCH_RESULT -> "Search Result"
+        ResponseType.OPERATION_ID -> "Operation Id"
         ResponseType.POLL -> "Poll"
         ResponseType.GROUPS -> "Groups"
         ResponseType.CONTACTS -> "Contacts"

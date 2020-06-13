@@ -91,6 +91,7 @@
                     tools:text="Server name" />
 
                 <LinearLayout
+                    android:id="@+id/layout_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/gapMedium"
@@ -299,6 +300,19 @@
                         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper, magna ut aliquet interdum, velit tellus sollicitudin dolor, eu mattis risus enim in lectus. Sed mattis purus sed metus viverra, sed elementum ante ullamcorper. Sed convallis mi vitae mi malesuada elementum. Quisque varius quam lectus, nec laoreet metus aliquet quis." />
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnChangeServer"
+                    style="@style/Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gapMedium"
+                    android:text="@string/change_server"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="@dimen/gapMedium"
+                    app:layout_constraintTop_toBottomOf="@id/layout_info"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

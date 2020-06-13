@@ -23,6 +23,6 @@ class ContactMapper {
     fun toDb(from: Contact) = org.ymessenger.app.data.local.db.entities.Contact(
         from.contactId!!,
         from.contactUserId,
-        from.name
+        from.name ?: from.contactUserId.toString()
     )
 }

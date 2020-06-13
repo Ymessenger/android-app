@@ -604,4 +604,8 @@
     <string name="prohibited">Prohibited</string>
     <string name="no">No</string>
     <string name="user_registration">User registration</string>
+    <string name="failed_to_change_server">Failed to change server</string>
+    <string name="changing_server_process">Changing server process…</string>
+    <string name="server_has_been_changed_please_login">Server has been changed successfully. Please, login into your account on new server.</string>
+    <string name="server_has_been_changed">Server has been changed</string>
 </resources>

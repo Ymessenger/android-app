@@ -359,6 +359,11 @@ class WebSocketService(
                     Log.d(TAG, "QR code with id ${response.qrCode.id}")
                 }
 
+                WSResponse.ResponseType.OPERATION_ID -> {
+                    response = gson.fromJson(data, OperationId::class.java)
+                    Log.d(TAG, "Operation Id ${response.operationId}")
+                }
+
                 WSResponse.ResponseType.RESULT_RESPONSE -> {
                     response = gson.fromJson(data, ResultResponse::class.java)
                     if (response.errorCode != WSResponse.ErrorCode.NULL) {
@@ -897,6 +902,13 @@ class WebSocketService(
         responseCallback: ResponseCallback<ResultResponse>
     ) {
         sendRequest(sendUserAction, responseCallback)
+    }
+
+    fun changeNode(
+        changeNode: ChangeNode,
+        responseCallback: ResponseCallback<OperationId>
+    ) {
+        sendRequest(changeNode, responseCallback)
     }
 
     /**

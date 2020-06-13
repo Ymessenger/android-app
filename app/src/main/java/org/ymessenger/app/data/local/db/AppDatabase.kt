@@ -22,10 +22,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import org.ymessenger.app.data.local.db.dao.*
 import org.ymessenger.app.data.local.db.entities.*
 
-private const val DATABASE_VERSION = 9
+private const val DATABASE_VERSION = 10
 
 @Database(
     entities = [
@@ -89,8 +91,16 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration() // FIXME: this must be deleted in prod and replaced with migrations
+                .addMigrations(MIGRATION_9_10)
+                .fallbackToDestructiveMigration() // Probably should be deleted
                 .build()
+        }
+
+        private val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE users ADD COLUMN node_id INTEGER")
+                database.execSQL("ALTER TABLE symmetric_keys ADD COLUMN creator_user_id INTEGER NOT NULL DEFAULT 0")
+            }
         }
     }
 

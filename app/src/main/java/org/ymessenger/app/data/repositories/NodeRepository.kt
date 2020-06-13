@@ -23,24 +23,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import org.ymessenger.app.data.remote.LicensorWSService
-import org.ymessenger.app.data.remote.Listing
-import org.ymessenger.app.data.remote.Resource
-import org.ymessenger.app.data.remote.WebSocketService
+import okhttp3.ResponseBody
+import org.ymessenger.app.data.remote.*
 import org.ymessenger.app.data.remote.entities.Node
 import org.ymessenger.app.data.remote.licensorRequests.GetNodes
 import org.ymessenger.app.data.remote.licensorResponses.Nodes
+import org.ymessenger.app.data.remote.requests.ChangeNode
 import org.ymessenger.app.data.remote.requests.GetInformationNode
 import org.ymessenger.app.data.remote.requests.SetConnectionEncrypted
 import org.ymessenger.app.data.remote.responses.EncryptedKey
 import org.ymessenger.app.data.remote.responses.LicensorResultResponse
+import org.ymessenger.app.data.remote.responses.OperationId
 import org.ymessenger.app.data.remote.responses.ResultResponse
+import org.ymessenger.app.interfaces.SimpleResultCallback
+import org.ymessenger.app.interfaces.SuccessErrorCallback
+import org.ymessenger.app.interfaces.TypedSuccessErrorCallback
 import org.ymessenger.app.utils.AppExecutors
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class NodeRepository private constructor(
     private val executors: AppExecutors,
     private val webSocketService: WebSocketService,
-    private val licensorWSService: LicensorWSService
+    private val licensorWSService: LicensorWSService,
+    private val changeNodeApi: ChangeNodeApi
 ) {
 
     fun getNodes(searchQuery: String?): Listing<Node> {
@@ -174,6 +181,48 @@ class NodeRepository private constructor(
             })
     }
 
+    fun changeNodeGetOperationId(nodeId: Long, callback: TypedSuccessErrorCallback<String>) {
+        val changeNode = ChangeNode(nodeId)
+        webSocketService.changeNode(changeNode, object : WebSocketService.ResponseCallback<OperationId> {
+            override fun onResponse(response: OperationId) {
+                callback.success(response.operationId)
+            }
+
+            override fun onError(error: ResultResponse) {
+                Log.e(TAG, "Failed to change node")
+                callback.error(error)
+            }
+        })
+    }
+
+    fun switchToOtherNode(nodeUrl: String, operationId: String, currentNodeId: Long, callback: SimpleResultCallback) {
+        Log.d(TAG, "Sending request for user migration...")
+        changeNodeApi.changeNode(nodeUrl, operationId, currentNodeId)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e(TAG, "Failed to change node: failed to get a response")
+                    callback.error()
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    val responseCode = response.code()
+                    val body = response.body().toString()
+                    val errorBody = response.errorBody().toString()
+                    Log.d(TAG, "Code: $responseCode, Body: $body, ErrorBody: $errorBody")
+                    if (response.isSuccessful) {
+                        Log.d(TAG, "Node is changed successfully")
+                        callback.success()
+                    } else {
+                        Log.e(TAG, "Failed to change node: answer is not successful")
+                        callback.error()
+                    }
+                }
+            })
+    }
+
     companion object {
         private const val TAG = "NodeRepository2"
         private var instance: NodeRepository? = null
@@ -181,14 +230,16 @@ class NodeRepository private constructor(
         fun getInstance(
             executors: AppExecutors,
             webSocketService: WebSocketService,
-            licensorWSService: LicensorWSService
+            licensorWSService: LicensorWSService,
+            changeNodeApi: ChangeNodeApi
         ) =
             instance ?: synchronized(this) {
                 instance
                     ?: NodeRepository(
                         executors,
                         webSocketService,
-                        licensorWSService
+                        licensorWSService,
+                        changeNodeApi
                     ).also { instance = it }
             }
     }

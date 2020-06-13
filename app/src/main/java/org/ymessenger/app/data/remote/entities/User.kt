@@ -53,6 +53,8 @@ data class User(
     @SerializedName("Banned")
     val banned: Boolean,
     @SerializedName("SyncContacts")
-    val syncContacts: Boolean
+    val syncContacts: Boolean,
+    @SerializedName("NodeId")
+    val nodeId: Long?
 ) {
 }

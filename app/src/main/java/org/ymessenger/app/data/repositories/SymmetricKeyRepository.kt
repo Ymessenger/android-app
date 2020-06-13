@@ -50,6 +50,10 @@ class SymmetricKeyRepository private constructor(
         return symmetricKeyDao.getSymmetricKeyByDialog(dialogId)
     }
 
+    fun getLastKeyForDialogByUser(dialogId: Long, userId: Long): LiveData<SymmetricKey> {
+        return symmetricKeyDao.getLastSymmetricKeyByDialogAndUser(dialogId, userId)
+    }
+
     interface GetKeyCallback {
         fun result(symmetricKey: SymmetricKey)
         fun keyNotFound()

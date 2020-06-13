@@ -17,7 +17,11 @@
 
 package org.ymessenger.app.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -33,6 +37,12 @@ class NodeInfoActivity : BaseActivity() {
 
     private lateinit var viewModel: NodeInfoViewModel
 
+    companion object {
+        private const val TAG = "NodeInfoActivity"
+
+        private const val REQUEST_CODE_PICK_NODE_TO_SWITCH_ON = 100
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_node_info)
@@ -43,6 +53,11 @@ class NodeInfoActivity : BaseActivity() {
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.refresh()
+        }
+
+        btnChangeServer.setOnClickListener {
+            val intent = ChooseServerActivity.getIntentModePick(this)
+            startActivityForResult(intent, REQUEST_CODE_PICK_NODE_TO_SWITCH_ON)
         }
 
         subscribeUi(viewModel)
@@ -71,6 +86,17 @@ class NodeInfoActivity : BaseActivity() {
                 }
             }
         })
+
+        viewModel.serverIsChangedEvent.observe(this, Observer {
+            appBase.nodeManager.switchToNode(it, {
+                Log.d(TAG, "Switched to new node with id $it")
+                appBase.authorizationManager.tryAuthorize()
+                viewModel.refresh()
+                viewModel.deleteAllChatPreviews()
+            }, {
+                Log.e(TAG, "Failed to switch to new node")
+            })
+        })
     }
 
     private fun setNode(node: Node) {
@@ -92,6 +118,30 @@ class NodeInfoActivity : BaseActivity() {
         tvRegistrationMethod.text = node.getRegistrationMethodLabel(this)
         tvSupportEmail.text = node.supportEmail ?: getString(R.string.not_specified)
         tvAdminEmail.text = node.adminEmail ?: getString(R.string.not_specified)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CODE_PICK_NODE_TO_SWITCH_ON -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        val nodeId = data.getLongExtra(ChooseServerActivity.RESULT_NODE_ID, -1)
+                        val nodeUrl = data.getStringExtra(ChooseServerActivity.RESULT_NODE_URL)
+
+                        if (nodeId > 0) {
+                            Log.d(TAG, "Picked node with id $nodeId")
+                            val userNodeId =
+                                appBase.authorizationManager.authorizedUser?.nodeId ?: return
+
+                            viewModel.changeNode(nodeUrl, nodeId, userNodeId)
+                        }
+                    } else {
+                        Log.e(TAG, "Data intent is null")
+                    }
+                }
+            }
+        }
     }
 
 }

@@ -22,10 +22,7 @@ import android.media.AudioManager
 import org.ymessenger.app.AppBase
 import org.ymessenger.app.data.local.db.AppDatabase
 import org.ymessenger.app.data.mappers.*
-import org.ymessenger.app.data.remote.FileApi
-import org.ymessenger.app.data.remote.LicensorWSService
-import org.ymessenger.app.data.remote.ServiceGenerator
-import org.ymessenger.app.data.remote.WebSocketService
+import org.ymessenger.app.data.remote.*
 import org.ymessenger.app.data.repositories.*
 import org.ymessenger.app.helpers.*
 import org.ymessenger.app.utils.AppExecutors
@@ -66,6 +63,10 @@ object Injection {
             FileApi::class.java,
             provideAuthorizationManager(appBase).fileAccessTokenLiveData
         )
+    }
+
+    fun provideChangeNodeApi(): ChangeNodeApi {
+        return ChangeNodeApi.create()
     }
 
     fun provideEncryptionWrapper(appBase: AppBase): EncryptionWrapper {
@@ -344,7 +345,8 @@ object Injection {
         return NodeRepository.getInstance(
             provideExecutors(),
             provideWebSocketService(appBase),
-            provideLicensorWSService(appBase)
+            provideLicensorWSService(appBase),
+            provideChangeNodeApi()
         )
     }
 
@@ -878,7 +880,8 @@ object Injection {
 
     fun provideNodeInfoViewModelFactory(appBase: AppBase): NodeInfoViewModel.Factory {
         return NodeInfoViewModel.Factory(
-            provideNodeRepository(appBase)
+            provideNodeRepository(appBase),
+            provideChatPreviewRepository(appBase)
         )
     }
 

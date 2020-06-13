@@ -33,6 +33,7 @@ class UserMapper {
         from.tag,
         PrivacyConverter.toString(from.privacy),
         from.confirmed,
-        from.banned
+        from.banned,
+        from.nodeId
     )
 }

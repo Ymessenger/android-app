@@ -15,22 +15,13 @@
  * along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ymessenger.app.data.remote.entities
+package org.ymessenger.app.data.remote.responses
 
 import com.google.gson.annotations.SerializedName
+import org.ymessenger.app.data.remote.WSResponse
+import org.ymessenger.app.data.remote.entities.Poll
 
-data class Contact(
-    @SerializedName("ContactUserId")
-    val contactUserId: Long,
-    @SerializedName("Name")
-    val name: String?
-) {
-    @SerializedName("ContactId")
-    var contactId: String? = null
-
-    @SerializedName("GroupsId")
-    var groupsId: List<String>? = null
-
-    @SerializedName("ContactUser")
-    var contactUser: User? = null
+class OperationId : WSResponse() {
+    @SerializedName("OperationId")
+    lateinit var operationId: String
 }

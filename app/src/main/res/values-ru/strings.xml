@@ -576,4 +576,8 @@
     <string name="prohibited">Запрещена</string>
     <string name="no">Нет</string>
     <string name="user_registration">Регистрация пользователей</string>
+    <string name="failed_to_change_server">Не удалось сменить сервер</string>
+    <string name="changing_server_process">Процесс смены сервера…</string>
+    <string name="server_has_been_changed_please_login">Сервер был успешно изменен. Войдите в свой аккаунт на новом сервере, пожалуйста.</string>
+    <string name="server_has_been_changed">Сервер изменен</string>
 </resources>
