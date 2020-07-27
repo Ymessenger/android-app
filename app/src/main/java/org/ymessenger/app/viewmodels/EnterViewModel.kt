@@ -44,7 +44,7 @@ class EnterViewModel(
     val openSetPassphraseEvent = SingleLiveEvent<Void>()
 
     init {
-        if (settingsHelper.getYEncryptPass() == null && settingsHelper.getSavePassphrase()) {
+        if (settingsHelper.isFirstLaunch() || settingsHelper.getYEncryptPass() == null && settingsHelper.getSavePassphrase()) {
             openSetPassphraseEvent.call()
             settingsHelper.setAskedOldUsersToSetPassphrase()
         }

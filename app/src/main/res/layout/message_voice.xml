@@ -18,9 +18,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_voice"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/layout_voice">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivImage"
@@ -30,6 +30,19 @@
         android:adjustViewBounds="true"
         android:src="@drawable/ic_play_circle_filled"
         android:tint="@color/colorDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivPause"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="@dimen/gapXSmall"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_pause_circle_filled"
+        android:tint="@color/colorDark"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,14 +63,14 @@
         android:id="@+id/tvVoiceMessageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/gapSmall"
         android:layout_marginStart="@dimen/gapXSmall"
+        android:layout_marginEnd="@dimen/gapSmall"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/colorDark"
-        android:textSize="12sp"
         android:minWidth="150dp"
         android:text="@string/voice_message"
+        android:textColor="@color/colorDark"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvFileSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivImage"

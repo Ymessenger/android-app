@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_set_pass_phrase.*
 import org.ymessenger.app.R
 import org.ymessenger.app.data.Limitations
 import org.ymessenger.app.di.Injection
+import org.ymessenger.app.helpers.PassphraseGenerator
 import org.ymessenger.app.utils.SimpleTextWatcher
 import org.ymessenger.app.viewmodels.SetPassphraseViewModel
 
@@ -59,6 +60,12 @@ class SetPassphraseActivity : BaseActivity() {
                 viewModel.setPassphrase(text)
             }
         })
+
+        btnGeneratePass.setOnClickListener {
+            if (!canClick()) return@setOnClickListener
+
+            generatePassphrase()
+        }
 
         btnSave.setOnClickListener {
             if (!canClick()) return@setOnClickListener
@@ -118,6 +125,11 @@ class SetPassphraseActivity : BaseActivity() {
         } else {
             showToast(R.string.this_action_cannot_be_skipped)
         }
+    }
+
+    private fun generatePassphrase() {
+        val passphrase = PassphraseGenerator.generate(this)
+        etPassPhrase.setText(passphrase)
     }
 
     companion object {

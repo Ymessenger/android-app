@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.drawable.LayerDrawable
+import android.media.AudioManager
 import android.text.TextUtils
 import android.text.format.Formatter
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -747,6 +749,14 @@ abstract class AbstractMessageHolder(
                             )
                         )
 
+                        // Pause icon color
+                        itemView.ivPause.setColorFilter(
+                            ContextCompat.getColor(
+                                context,
+                                messageTextColor
+                            )
+                        )
+
                         // File name text color the same as reply
                         itemView.tvVoiceMessageLabel.setTextColor(
                             ColorStateList.valueOf(
@@ -784,12 +794,25 @@ abstract class AbstractMessageHolder(
 
                         itemView.ivImage.setOnClickListener {
                             if (hasStoredLocation) {
-                                itemClickListeners.playVoice(attachment.savedAt!!)
+                                itemClickListeners.playVoice(attachment.savedAt!!) {
+                                    // stop
+                                    itemView.ivPause.visibility = View.INVISIBLE
+                                    itemView.ivImage.visibility = View.VISIBLE
+                                }
+                                checkVolumeLevel()
+                                itemView.ivPause.visibility = View.VISIBLE
+                                itemView.ivImage.visibility = View.INVISIBLE
                             } else if (!downloading) {
                                 itemView.pbDownloading.visibility = View.VISIBLE
                                 downloading = true
                                 itemClickListeners.downloadFile(fileInfo, attachment.id!!)
                             }
+                        }
+
+                        itemView.ivPause.setOnClickListener {
+                            itemClickListeners.pauseVoice()
+                            itemView.ivPause.visibility = View.INVISIBLE
+                            itemView.ivImage.visibility = View.VISIBLE
                         }
 
                         itemView.layout_voice.visibility = View.VISIBLE
@@ -843,6 +866,16 @@ abstract class AbstractMessageHolder(
     }
 
     abstract fun getSymmetricKeyMessage(): Int
+
+    private fun checkVolumeLevel() {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val volumeLevel = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val maxVolumeLevel = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        val volumePercent = volumeLevel * 100 / maxVolumeLevel
+        if (volumePercent < 20) {
+            Toast.makeText(context, R.string.turn_up_the_volume, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     companion object {
         private const val TAG = "AbstractMessageHolder"

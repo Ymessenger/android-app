@@ -172,9 +172,12 @@ class MessagesFragment : BaseFragment() {
                     viewModel.updateMessage(messageId)
                 }
 
-                override fun playVoice(filePath: String) {
-                    if (!canClick()) return
-                    itemClickListeners.playVoice(filePath)
+                override fun playVoice(filePath: String, callback: () -> Unit) {
+                    itemClickListeners.playVoice(filePath, callback)
+                }
+
+                override fun pauseVoice() {
+                    itemClickListeners.pauseVoice()
                 }
             }, object : MessagesPagedAdapter.EncryptedMessageCallbacks {
                 override fun decryptFile(

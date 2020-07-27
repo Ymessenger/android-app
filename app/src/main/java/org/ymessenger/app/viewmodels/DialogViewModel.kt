@@ -158,6 +158,9 @@ class DialogViewModel(
         }
     }
 
+    // FIXME: EXPERIMENTAL
+    private var voiceStopCallback: (() -> Unit)? = null
+
     init {
         if (!authorizationManager.isAuthorized) {
             authorizationManager.tryAuthorize()
@@ -187,6 +190,15 @@ class DialogViewModel(
             checkMessageIsEmpty()
         }
 
+        voicePlayerHelper.initMediaPlayer(object : VoicePlayerHelper.PlaybackCallback {
+            override fun onComplete() {
+                voiceStopCallback?.invoke()
+            }
+
+            override fun onError() {
+                showError(R.string.unknown_error)
+            }
+        })
     }
 
     fun initTimer() {
@@ -1367,10 +1379,26 @@ class DialogViewModel(
 
     }
 
-    fun playVoice(filePath: String) {
-        voicePlayerHelper.play(filePath) {
-            showToast(R.string.voice_message_is_playing_wait_until_it_is_stop)
+    fun playVoice(filePath: String, callback: () -> Unit) {
+        if (voicePlayerHelper.isSourceSet(filePath)) {
+            voicePlayerHelper.play()
+            // FIXME: EXPERIMENTAL
+            this.voiceStopCallback = callback
+        } else {
+            if (voicePlayerHelper.isSourceSet()) {
+                voicePlayerHelper.stop()
+                // Stop previous voice
+                voiceStopCallback?.invoke()
+            }
+            // FIXME: EXPERIMENTAL
+            this.voiceStopCallback = callback
+            voicePlayerHelper.setSource(filePath)
+            voicePlayerHelper.play()
         }
+    }
+
+    fun pauseVoice() {
+        voicePlayerHelper.pause()
     }
 
     class Factory(

@@ -608,4 +608,7 @@
     <string name="changing_server_process">Changing server process…</string>
     <string name="server_has_been_changed_please_login">Server has been changed successfully. Please, login into your account on new server.</string>
     <string name="server_has_been_changed">Server has been changed</string>
+    <string name="turn_up_the_volume">Turn up the volume</string>
+    <string name="generate_pass">Generate pass</string>
+    <string name="passphrase_generator_description">The passphrase generator uses the built-in dictionary of English words. The password is created by choosing random words from the dictionary directly on your device. The generated phrase may not make sense or maybe dubious.</string>
 </resources>

@@ -845,7 +845,11 @@ class ChatActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners {
         // nothing
     }
 
-    override fun playVoice(filePath: String) {
-        viewModel.playVoice(filePath)
+    override fun playVoice(filePath: String, callback: () -> Unit) {
+        viewModel.playVoice(filePath, callback)
+    }
+
+    override fun pauseVoice() {
+        viewModel.pauseVoice()
     }
 }

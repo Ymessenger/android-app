@@ -64,7 +64,8 @@ class MessagesPagedAdapter(
         fun votePoll(optionId: Int, poll: Poll, callback: (() -> Unit))
         fun showVotedUsers(optionId: Int, poll: Poll)
         fun updateMessage(messageId: String)
-        fun playVoice(filePath: String)
+        fun playVoice(filePath: String, callback: () -> Unit)
+        fun pauseVoice()
     }
 
     interface EncryptedMessageCallbacks {

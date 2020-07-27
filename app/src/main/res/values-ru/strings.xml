@@ -580,4 +580,7 @@
     <string name="changing_server_process">Процесс смены сервера…</string>
     <string name="server_has_been_changed_please_login">Сервер был успешно изменен. Войдите в свой аккаунт на новом сервере, пожалуйста.</string>
     <string name="server_has_been_changed">Сервер изменен</string>
+    <string name="turn_up_the_volume">Увеличьте громкость</string>
+    <string name="generate_pass">Сгенерировать пароль</string>
+    <string name="passphrase_generator_description">Генератор парольной фразы использует встроенный словарь английских слов. Пароль создается путем выбора случайных слов из словаря прямо на вашем устройстве. Сгенерированная фраза может не иметь смысла или иметь сомнительный характер.</string>
 </resources>

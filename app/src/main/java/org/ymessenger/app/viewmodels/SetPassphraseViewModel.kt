@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.ymessenger.app.R
 import org.ymessenger.app.data.Limitations
+import org.ymessenger.app.helpers.PassphraseGenerator
 import org.ymessenger.app.helpers.SettingsHelper
 import org.ymessenger.app.utils.SingleLiveEvent
 
