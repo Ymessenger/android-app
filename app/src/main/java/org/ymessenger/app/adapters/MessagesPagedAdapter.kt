@@ -20,6 +20,7 @@ package org.ymessenger.app.adapters
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import org.ymessenger.app.adapters.viewholders.messages.AbstractMessageHolder
 import org.ymessenger.app.adapters.viewholders.messages.MessageHolder
@@ -54,6 +55,13 @@ class MessagesPagedAdapter(
 
     var onRenderEncryptedMessage: (() -> Unit)? = null
 
+    // FIXME: EXPERIMENTAL
+    private var recyclerView: RecyclerView? = null
+
+    fun setRecyclerView(recyclerView: RecyclerView?) {
+        this.recyclerView = recyclerView
+    }
+
     interface ItemClickListeners {
         fun onMessageClick(messageModel: MessageModel)
         fun onUserClick(userId: Long)
@@ -65,6 +73,7 @@ class MessagesPagedAdapter(
         fun showVotedUsers(optionId: Int, poll: Poll)
         fun updateMessage(messageId: String)
         fun playVoice(filePath: String, callback: () -> Unit)
+        fun playVoice(decryptedBytes: ByteArray, filePath: String, callback: () -> Unit)
         fun pauseVoice()
     }
 
@@ -120,6 +129,14 @@ class MessagesPagedAdapter(
             val prevMessageModel = if (position == itemCount - 1) null else getItem(position + 1)
             val displayDateDivider = displayDateDivider(messageModel, prevMessageModel)
             holder.bind(messageModel, displayDateDivider)
+
+            holder.setPlayNextVoiceCallback {
+                // TODO: get viewholder by position - 1 and call 'tryPlayNextVoice'
+                val nextHolder = recyclerView?.findViewHolderForAdapterPosition(position - 1)
+                nextHolder?.let {
+                    (it as AbstractMessageHolder).tryPlayVoiceMessage()
+                }
+            }
         } else {
             // TODO: clear holder?
         }
@@ -173,6 +190,14 @@ class MessagesPagedAdapter(
             if (payloadsObject.attachmentsChanged) {
                 if (item.getDecryptedMessageType() != null) onRenderEncryptedMessage?.invoke()
                 holder.updateAttachments(item)
+            }
+
+            holder.setPlayNextVoiceCallback {
+                // TODO: get viewholder by position - 1 and call 'tryPlayNextVoice'
+                val nextHolder = recyclerView?.findViewHolderForAdapterPosition(position - 1)
+                nextHolder?.let {
+                    (it as AbstractMessageHolder).tryPlayVoiceMessage()
+                }
             }
         }
     }

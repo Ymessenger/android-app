@@ -51,6 +51,11 @@
         <item name="android:textColor">@color/secondary_button_text_color</item>
     </style>
 
+    <style name="Button.Secondary.Inverted">
+        <item name="android:background">@drawable/secondary_button_inverted</item>
+        <item name="android:textColor">@color/secondary_button_text_color_inverted</item>
+    </style>
+
     <style name="Button.Secondary.Small">
         <item name="android:background">@drawable/secondary_button_small</item>
         <item name="android:textSize">14sp</item>

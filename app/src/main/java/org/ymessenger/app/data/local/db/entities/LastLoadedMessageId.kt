@@ -15,16 +15,18 @@
  * along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ymessenger.app.data
+package org.ymessenger.app.data.local.db.entities
 
-object EncryptedMessageType {
-    const val TEXT = 0L
-    const val FILE = 1L
-    const val AUDIO = 2L
-    const val VIDEO = 3L
-    const val PHOTO = 4L
-    const val VOICE = 5L // THAT'S MINE, I DON'T REALLY KNOW IS IT CORRECT
-    const val REQUEST = 6L
-    const val RESPONSE = 7L
-    const val NOTICE = 8L
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+
+@Entity(
+    tableName = "last_loaded_message_id",
+    primaryKeys = ["conversation_id", "conversation_type"]
+)
+data class LastLoadedMessageId(
+    @ColumnInfo(name = "conversation_id") val conversationId: Long,
+    @ColumnInfo(name = "conversation_type") val conversationType: Int,
+    @ColumnInfo(name = "global_id") val globalId: String
+) {
 }

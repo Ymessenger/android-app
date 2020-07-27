@@ -161,6 +161,9 @@ class DialogViewModel(
     // FIXME: EXPERIMENTAL
     private var voiceStopCallback: (() -> Unit)? = null
 
+    val openConversationEvent = SingleLiveEvent<Pair<Int, Long>>()
+    val finishActivityEvent = SingleLiveEvent<Void>()
+
     init {
         if (!authorizationManager.isAuthorized) {
             authorizationManager.tryAuthorize()
@@ -517,6 +520,7 @@ class DialogViewModel(
             val type = when (attachmentType) {
                 Attachment.Type.FILE -> EncryptedMessageType.FILE
                 Attachment.Type.PICTURE -> EncryptedMessageType.PHOTO
+                Attachment.Type.VOICE -> EncryptedMessageType.VOICE
                 else -> throw Exception("Wrong attachment type")
             }
 
@@ -1067,6 +1071,12 @@ class DialogViewModel(
                 showError(R.string.failed_to_send_message)
             }
         })
+
+        // Open conversation if it's not the current one
+        if (conversationType != message.conversationType || identifier != userId) {
+            openConversationEvent.postValue(conversationType to identifier)
+            finishActivityEvent.call()
+        }
     }
 
     fun clearMessagesToForward() {
@@ -1367,11 +1377,26 @@ class DialogViewModel(
     private fun sendVoiceMessage(filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
-            uploadFile(file, true) {
-                sendFile(it, Attachment.Type.VOICE)
+            // Send encrypted voice message if it's encrypted dialog
+            if (isProtectedDialog()) {
+                encryptFile(file, object : EncryptFileCallback {
+                    override fun encrypted(data: ByteArray) {
+                        uploadFile(data, file.name, true, {
+                            sendEncryptedFile(it, Attachment.Type.VOICE)
+                        })
+                    }
+
+                    override fun error() {
+                        showError(R.string.failed_to_encrypt_file)
+                    }
+                })
+            } else {
+                uploadFile(file, true) {
+                    sendFile(it, Attachment.Type.VOICE)
+                }
             }
         } else {
-            showToast("File isn't exist")
+            showToast("File does not exist")
         }
     }
 
@@ -1393,6 +1418,24 @@ class DialogViewModel(
             // FIXME: EXPERIMENTAL
             this.voiceStopCallback = callback
             voicePlayerHelper.setSource(filePath)
+            voicePlayerHelper.play()
+        }
+    }
+
+    fun playVoice(decryptedBytes: ByteArray, filePath: String, callback: () -> Unit) {
+        if (voicePlayerHelper.isSourceSet(filePath)) {
+            voicePlayerHelper.play()
+            // FIXME: EXPERIMENTAL
+            this.voiceStopCallback = callback
+        } else {
+            if (voicePlayerHelper.isSourceSet()) {
+                voicePlayerHelper.stop()
+                // Stop previous voice
+                voiceStopCallback?.invoke()
+            }
+            // FIXME: EXPERIMENTAL
+            this.voiceStopCallback = callback
+            voicePlayerHelper.setSource(decryptedBytes, filePath)
             voicePlayerHelper.play()
         }
     }

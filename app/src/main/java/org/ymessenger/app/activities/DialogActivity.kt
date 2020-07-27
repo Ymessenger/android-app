@@ -27,12 +27,10 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.format.DateUtils
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
@@ -387,6 +385,17 @@ class DialogActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners,
             layout_send_buttons.visibility = if (it) View.INVISIBLE else View.VISIBLE
             layout_send_buttons.isEnabled = !it
             pbMessageIsSending.visibility = if (it) View.VISIBLE else View.INVISIBLE
+
+            // Stupid hack to disable text input while message is sending
+            if (it) {
+                val inputFilter = InputFilter { p0, p1, p2, p3, p4, p5 ->
+                    ""
+                }
+
+                etMessageText.filters = arrayOf(inputFilter)
+            } else {
+                etMessageText.filters = arrayOf()
+            }
         })
 
         viewModel.clearMessageTextEvent.observe(this, Observer {
@@ -481,6 +490,14 @@ class DialogActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners,
                 hideUserAction()
             }
         })
+
+        viewModel.openConversationEvent.observe(this, Observer {
+            openConversation(it.first, it.second)
+        })
+
+        viewModel.finishActivityEvent.observe(this, Observer {
+            finish()
+        })
     }
 
     private fun showUserAction(userAction: UserActionModel) {
@@ -536,6 +553,8 @@ class DialogActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners,
         }
 
         viewModel.cancelTimer()
+
+        viewModel.pauseVoice()
     }
 
     private fun replyToMessage(messageModel: MessageModel) {
@@ -944,6 +963,10 @@ class DialogActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners,
         viewModel.playVoice(filePath, callback)
     }
 
+    override fun playVoice(decryptedBytes: ByteArray, filePath: String, callback: () -> Unit) {
+        viewModel.playVoice(decryptedBytes, filePath, callback)
+    }
+
     override fun pauseVoice() {
         viewModel.pauseVoice()
     }
@@ -998,6 +1021,22 @@ class DialogActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners,
 
             else -> {
                 showError(R.string.unsupported_file_type)
+            }
+        }
+    }
+
+    private fun openConversation(conversationType: Int, identifier: Long) {
+        when (conversationType) {
+            ConversationType.DIALOG -> {
+                DialogActivity.start(this, identifier)
+            }
+
+            ConversationType.CHAT -> {
+                ChatActivity.startActivity(this, identifier)
+            }
+
+            ConversationType.CHANNEL -> {
+                ChannelActivity.startActivity(this, identifier)
             }
         }
     }

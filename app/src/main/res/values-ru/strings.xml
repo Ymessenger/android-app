@@ -583,4 +583,7 @@
     <string name="turn_up_the_volume">Увеличьте громкость</string>
     <string name="generate_pass">Сгенерировать пароль</string>
     <string name="passphrase_generator_description">Генератор парольной фразы использует встроенный словарь английских слов. Пароль создается путем выбора случайных слов из словаря прямо на вашем устройстве. Сгенерированная фраза может не иметь смысла или иметь сомнительный характер.</string>
+    <string name="english_letters_and_spaces_only">Используйте только английские буквы и пробел</string>
+    <string name="you_cannot_create_private_channel_yet">Пока нельзя создать приватный канал</string>
+    <string name="registration_method_is_chosen_by_server">Метод регистрации выбран сервером. Если вы не хотите указывать эти данные, пожалуйста, выберите другой сервер.</string>
 </resources>

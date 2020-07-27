@@ -176,6 +176,14 @@ class MessagesFragment : BaseFragment() {
                     itemClickListeners.playVoice(filePath, callback)
                 }
 
+                override fun playVoice(
+                    decryptedBytes: ByteArray,
+                    filePath: String,
+                    callback: () -> Unit
+                ) {
+                    itemClickListeners.playVoice(decryptedBytes, filePath, callback)
+                }
+
                 override fun pauseVoice() {
                     itemClickListeners.pauseVoice()
                 }
@@ -216,6 +224,7 @@ class MessagesFragment : BaseFragment() {
         rootView.rvMessages.adapter = messagesAdapter
         // Adds margins to related messages
         rootView.rvMessages.addItemDecoration(MessageMarginItemDecoration(context!!))
+        messagesAdapter.setRecyclerView(rootView.rvMessages) // FIXME: EXPERIMENTAL
 
         // Scrolls to 0 position if new message added to begin
         messagesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -311,5 +320,13 @@ class MessagesFragment : BaseFragment() {
         if (::viewModel.isInitialized) {
             viewModel.invalidateMessages()
         }
+    }
+
+    override fun onDestroy() {
+        // Save current last loaded message id IF APP HAS CONNECTION TO SERVER
+        if (::viewModel.isInitialized && appBase.getWebSocketService().getConnectionStatus().value == true) {
+            viewModel.saveLastLoadedMessageId()
+        }
+        super.onDestroy()
     }
 }

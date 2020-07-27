@@ -15,16 +15,20 @@
  * along with Y messenger.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.ymessenger.app.data
+package org.ymessenger.app.data.local.db.dao
 
-object EncryptedMessageType {
-    const val TEXT = 0L
-    const val FILE = 1L
-    const val AUDIO = 2L
-    const val VIDEO = 3L
-    const val PHOTO = 4L
-    const val VOICE = 5L // THAT'S MINE, I DON'T REALLY KNOW IS IT CORRECT
-    const val REQUEST = 6L
-    const val RESPONSE = 7L
-    const val NOTICE = 8L
+import androidx.room.Dao
+import androidx.room.Query
+import org.ymessenger.app.data.local.db.entities.DraftMessage
+import org.ymessenger.app.data.local.db.entities.LastLoadedMessageId
+
+@Dao
+abstract class LastLoadedMessageIdDao : BaseDao<LastLoadedMessageId> {
+
+    @Query("SELECT * FROM last_loaded_message_id WHERE conversation_id = :conversationId AND conversation_type = :conversationType")
+    abstract fun getLastLoadedMessageId(
+        conversationId: Long,
+        conversationType: Int
+    ): LastLoadedMessageId?
+
 }

@@ -24,10 +24,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.google.gson.Gson
 import org.ymessenger.app.data.local.db.dao.*
-import org.ymessenger.app.data.local.db.entities.Attachment
-import org.ymessenger.app.data.local.db.entities.ForwardedMessageInfo
-import org.ymessenger.app.data.local.db.entities.Message
-import org.ymessenger.app.data.local.db.entities.SymmetricKey
+import org.ymessenger.app.data.local.db.entities.*
 import org.ymessenger.app.data.local.db.models.MessageModel
 import org.ymessenger.app.data.mappers.MessageMapper
 import org.ymessenger.app.data.mappers.RepliedMessageMapper
@@ -58,7 +55,8 @@ class MessageRepository private constructor(
     private val encryptionWrapper: EncryptionWrapper,
     private val webSocketService: WebSocketService,
     private val messageMapper: MessageMapper,
-    private val repliedMessageMapper: RepliedMessageMapper
+    private val repliedMessageMapper: RepliedMessageMapper,
+    private val lastLoadedMessageIdDao: LastLoadedMessageIdDao
 ) {
 
     /**
@@ -449,6 +447,86 @@ class MessageRepository private constructor(
             })
     }
 
+    /**
+     * This method is used to load and save all messages from server, which were not loaded for some
+     * reason and there is a bunch of missing messages that should be loaded.
+     *
+     * @param conversationId Conversation identifier
+     * @param conversationType Conversation type
+     * @param fromId Last saved message globalId. We should load all messages from this id
+     * @param loadedMessages Temporary storage for loaded messages. It stores all pages of messages
+     * and then save them all to the database
+     */
+    fun loadAllMessagesFromServerAfter(
+        conversationId: Long,
+        conversationType: Int,
+        fromId: String,
+        loadedMessages: ArrayList<org.ymessenger.app.data.remote.entities.Message>? = null
+    ) {
+        val getMessages = GetMessages(conversationType, conversationId, fromId, false)
+
+        webSocketService.getMessages(
+            getMessages,
+            object : WebSocketService.ResponseCallback<Messages> {
+                override fun onResponse(response: Messages) {
+                    if (response.messages.isNotEmpty()) {
+                        loadedMessages?.addAll(response.messages)
+                        Log.d(TAG, "Load next messages page")
+                        val lastId = loadedMessages?.last()?.globalId
+                        if (lastId != null) {
+                            loadAllMessagesFromServerAfter(
+                                conversationId,
+                                conversationType,
+                                lastId,
+                                loadedMessages
+                            )
+                        } else {
+                            Log.e(TAG, "Last message globalId is null, can't load next page")
+                        }
+                    } else {
+                        Log.d(TAG, "All messages were loaded. Save them to the database")
+                        loadedMessages?.let {
+                            executors.diskIO.execute {
+                                insertResultIntoDb(it)
+                            }
+                        }
+                    }
+                }
+
+                override fun onError(error: ResultResponse) {
+                    Log.e(TAG, "Failed to load all messages after $fromId")
+                }
+            })
+    }
+
+    fun getLastLoadedMessageId(
+        conversationId: Long,
+        conversationType: Int,
+        callback: (String?) -> Unit
+    ) {
+        executors.diskIO.execute {
+            val lastLoadedMessageId =
+                lastLoadedMessageIdDao.getLastLoadedMessageId(conversationId, conversationType)
+            callback.invoke(lastLoadedMessageId?.globalId)
+        }
+    }
+
+    fun saveLastLoadedMessageId(
+        conversationId: Long,
+        conversationType: Int,
+        lastLoadedMessageId: String
+    ) {
+        executors.diskIO.execute {
+            lastLoadedMessageIdDao.upsert(
+                LastLoadedMessageId(
+                    conversationId,
+                    conversationType,
+                    lastLoadedMessageId
+                )
+            )
+        }
+    }
+
     fun getLastSymmetricKeysMessages(conversationId: Long, conversationType: Int) {
         val attachmentsTypes =
             intArrayOf(org.ymessenger.app.data.remote.entities.Attachment.Type.KEY_EXCHANGE_MESSAGE)
@@ -675,7 +753,8 @@ class MessageRepository private constructor(
             encryptionWrapper: EncryptionWrapper,
             webSocketService: WebSocketService,
             messageMapper: MessageMapper,
-            repliedMessageMapper: RepliedMessageMapper
+            repliedMessageMapper: RepliedMessageMapper,
+            lastLoadedMessageIdDao: LastLoadedMessageIdDao
         ): MessageRepository {
             return instance ?: synchronized(this) {
                 instance
@@ -693,7 +772,8 @@ class MessageRepository private constructor(
                         encryptionWrapper,
                         webSocketService,
                         messageMapper,
-                        repliedMessageMapper
+                        repliedMessageMapper,
+                        lastLoadedMessageIdDao
                     ).also { instance = it }
             }
         }

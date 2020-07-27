@@ -27,7 +27,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import org.ymessenger.app.data.local.db.dao.*
 import org.ymessenger.app.data.local.db.entities.*
 
-private const val DATABASE_VERSION = 10
+private const val DATABASE_VERSION = 11
 
 @Database(
     entities = [
@@ -50,7 +50,8 @@ private const val DATABASE_VERSION = 10
         SymmetricKey::class,
         FavoriteConversation::class,
         DraftMessage::class,
-        UserAction::class
+        UserAction::class,
+        LastLoadedMessageId::class
     ],
     version = DATABASE_VERSION,
     exportSchema = false
@@ -78,6 +79,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteConversationDao(): FavoriteConversationDao
     abstract fun draftMessageDao(): DraftMessageDao
     abstract fun userActionDao(): UserActionDao
+    abstract fun lastLoadedMessageIdDao(): LastLoadedMessageIdDao
 
     companion object {
         private const val DATABASE_NAME = "ymessenger_db"
@@ -92,6 +94,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .addMigrations(MIGRATION_9_10)
+                .addMigrations(MIGRATION_10_11)
                 .fallbackToDestructiveMigration() // Probably should be deleted
                 .build()
         }
@@ -100,6 +103,12 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE users ADD COLUMN node_id INTEGER")
                 database.execSQL("ALTER TABLE symmetric_keys ADD COLUMN creator_user_id INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE IF NOT EXISTS `last_loaded_message_id` (`conversation_id` INTEGER NOT NULL, `conversation_type` INTEGER NOT NULL, `global_id` TEXT NOT NULL, PRIMARY KEY(`conversation_id`, `conversation_type`))")
             }
         }
     }

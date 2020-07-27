@@ -298,7 +298,8 @@ object Injection {
             provideEncryptionWrapper(appBase),
             provideWebSocketService(appBase),
             provideMessageMapper(),
-            provideRepliedMessageMapper()
+            provideRepliedMessageMapper(),
+            database.lastLoadedMessageIdDao()
         )
     }
 

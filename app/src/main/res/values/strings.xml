@@ -611,4 +611,7 @@
     <string name="turn_up_the_volume">Turn up the volume</string>
     <string name="generate_pass">Generate pass</string>
     <string name="passphrase_generator_description">The passphrase generator uses the built-in dictionary of English words. The password is created by choosing random words from the dictionary directly on your device. The generated phrase may not make sense or maybe dubious.</string>
+    <string name="english_letters_and_spaces_only">Use english letters and space only</string>
+    <string name="you_cannot_create_private_channel_yet">You can\'t create private channel yet</string>
+    <string name="registration_method_is_chosen_by_server">Registration method is chosen by server. If you don\'t want to indicate this information, choose another server, please.</string>
 </resources>

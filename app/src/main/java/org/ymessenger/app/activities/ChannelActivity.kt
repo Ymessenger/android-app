@@ -27,6 +27,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -314,6 +315,8 @@ class ChannelActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners 
         } else {
             viewModel.saveDraft(etMessageText.text.toString())
         }
+
+        viewModel.pauseVoice()
     }
 
     private fun getChannelId(): Long {
@@ -403,6 +406,17 @@ class ChannelActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners 
             layout_send_buttons.visibility = if (it) View.INVISIBLE else View.VISIBLE
             layout_send_buttons.isEnabled = !it
             pbMessageIsSending.visibility = if (it) View.VISIBLE else View.INVISIBLE
+
+            // Stupid hack to disable text input while message is sending
+            if (it) {
+                val inputFilter = InputFilter { p0, p1, p2, p3, p4, p5 ->
+                    ""
+                }
+
+                etMessageText.filters = arrayOf(inputFilter)
+            } else {
+                etMessageText.filters = arrayOf()
+            }
         })
 
         appBase.getWebSocketService().getConnectionStatus().observe(this, Observer {
@@ -455,6 +469,14 @@ class ChannelActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners 
                 etMessageText.visibility = View.VISIBLE
                 tvVoiceRecordingLabel.visibility = View.INVISIBLE
             }
+        })
+
+        viewModel.openConversationEvent.observe(this, Observer {
+            openConversation(it.first, it.second)
+        })
+
+        viewModel.finishActivityEvent.observe(this, Observer {
+            finish()
         })
     }
 
@@ -811,7 +833,27 @@ class ChannelActivity : BaseActivity(), MessagesPagedAdapter.ItemClickListeners 
         viewModel.playVoice(filePath, callback)
     }
 
+    override fun playVoice(decryptedBytes: ByteArray, filePath: String, callback: () -> Unit) {
+        // nothing
+    }
+
     override fun pauseVoice() {
         viewModel.pauseVoice()
+    }
+
+    private fun openConversation(conversationType: Int, identifier: Long) {
+        when (conversationType) {
+            ConversationType.DIALOG -> {
+                DialogActivity.start(this, identifier)
+            }
+
+            ConversationType.CHAT -> {
+                ChatActivity.startActivity(this, identifier)
+            }
+
+            ConversationType.CHANNEL -> {
+                ChannelActivity.startActivity(this, identifier)
+            }
+        }
     }
 }

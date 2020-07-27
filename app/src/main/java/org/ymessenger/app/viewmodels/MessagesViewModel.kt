@@ -50,6 +50,27 @@ class MessagesViewModel(
 
     val lastMessage = messageRepository.getLastMessage(conversationId, conversationType)
 
+    init {
+        var lastMessageObserved = false
+
+        lastMessage.observeForever { lastMessageModel ->
+            if (lastMessageObserved) return@observeForever
+
+            // Get last loaded message id with callback (not LiveData)
+            //  if it doesn't match to lastMessage.globalId then call messageRepository.loadAllMessagesFromServerAfter(lastLoadedMessageId)
+            messageRepository.getLastLoadedMessageId(conversationId, conversationType) { globalId ->
+                if (globalId != null && lastMessageModel.getMessage().globalId != globalId) {
+                    Log.w(TAG, "Last message and last loaded message don't match. Loading all messages from last loaded message...")
+                    messageRepository.loadAllMessagesFromServerAfter(conversationId, conversationType, globalId)
+                } else {
+                    Log.d(TAG, "Last loaded message is up to date")
+                }
+            }
+
+            lastMessageObserved = true
+        }
+    }
+
     private fun checkForNullFields(messageModels: PagedList<MessageModel>) {
         val usersId = hashSetOf<Long>()
         val channelsId = hashSetOf<Long>()
@@ -112,6 +133,12 @@ class MessagesViewModel(
     fun invalidateMessages() {
         Log.d(TAG, "invalidate")
         messageDataSourceFactory.messagesLiveData.value?.invalidate()
+    }
+
+    fun saveLastLoadedMessageId() {
+        lastMessage.value?.getMessage()?.globalId?.let {
+            messageRepository.saveLastLoadedMessageId(conversationId, conversationType, it)
+        }
     }
 
     companion object {

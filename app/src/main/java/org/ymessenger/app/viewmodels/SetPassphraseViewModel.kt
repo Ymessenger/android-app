@@ -35,10 +35,17 @@ class SetPassphraseViewModel(
 
     val setupYEncryptEvent = SingleLiveEvent<String>()
     val doneEvent = SingleLiveEvent<Void>()
+    val wrongSymbolsErrorEvent = MutableLiveData<Boolean>()
 
     private var passphrase: String = ""
 
     fun setPassphrase(passphrase: String) {
+        if (!passphrase.matches("[a-zA-Z ]*".toRegex())) {
+            wrongSymbolsErrorEvent.postValue(true)
+            return
+        }
+        wrongSymbolsErrorEvent.postValue(false)
+
         this.passphrase = passphrase
 
         val passphraseWithoutSpaces = passphrase.replace(" +".toRegex(), "")
@@ -48,6 +55,11 @@ class SetPassphraseViewModel(
     fun savePassphrase() {
         if (passphraseLength.value ?: 0 < Limitations.MIN_PASSPHRASE_LENGTH) {
             showError(R.string.passphrase_is_too_short)
+            return
+        }
+
+        if (wrongSymbolsErrorEvent.value != false) {
+            showError(R.string.english_letters_and_spaces_only)
             return
         }
 

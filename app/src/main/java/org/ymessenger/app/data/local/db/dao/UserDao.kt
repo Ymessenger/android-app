@@ -57,4 +57,7 @@ interface UserDao {
 
     @Query("DELETE FROM users")
     fun deleteAllUsers()
+
+    @Query("UPDATE users SET privacy = :privacy WHERE id = :userId")
+    fun updatePrivacy(userId: Long, privacy: String?)
 }

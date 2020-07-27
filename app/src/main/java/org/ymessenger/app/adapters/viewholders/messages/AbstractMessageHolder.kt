@@ -77,6 +77,8 @@ abstract class AbstractMessageHolder(
 
     protected val context: Context = itemView.context
 
+    private var playNextVoiceCallback: (() -> Unit)? = null
+
     init {
         itemView.setOnClickListener {
             messageModel?.let {
@@ -580,6 +582,113 @@ abstract class AbstractMessageHolder(
                                 itemView.layout_images_container.visibility = View.VISIBLE
                             }
 
+                            EncryptedMessageType.VOICE -> {
+                                val fileInfo = messageModel.getDecryptedAsFileInfo()
+
+                                hideSystemMessage()
+
+                                itemView.tvMessageText.visibility = View.GONE
+
+                                // Fix colors of each file
+
+                                // File icon color the same as reply
+                                itemView.ivImage.setColorFilter(
+                                    ContextCompat.getColor(
+                                        context,
+                                        messageTextColor
+                                    )
+                                )
+
+                                // Pause icon color
+                                itemView.ivPause.setColorFilter(
+                                    ContextCompat.getColor(
+                                        context,
+                                        messageTextColor
+                                    )
+                                )
+
+                                // File name text color the same as reply
+                                itemView.tvVoiceMessageLabel.setTextColor(
+                                    ColorStateList.valueOf(
+                                        ContextCompat.getColor(
+                                            context,
+                                            messageTextColor
+                                        )
+                                    )
+                                )
+
+                                // File size text color
+                                itemView.tvFileSize.setTextColor(
+                                    ColorStateList.valueOf(
+                                        ContextCompat.getColor(
+                                            context,
+                                            messageFileSizeColor
+                                        )
+                                    )
+                                )
+
+                                itemView.tvFileSize.text =
+                                    Formatter.formatFileSize(context, fileInfo.size)
+
+                                val hasStoredLocation = !TextUtils.isEmpty(attachment.savedAt)
+                                var downloading = false
+
+                                if (hasStoredLocation) {
+                                    itemView.pbDownloading.visibility = View.INVISIBLE
+                                    downloading = false
+                                } else {
+                                    downloading = true
+//                            itemView.pbDownloading.visibility = View.VISIBLE
+                                    itemClickListeners.downloadFile(fileInfo, attachment.id!!)
+                                }
+
+                                itemView.ivImage.setOnClickListener {
+                                    if (hasStoredLocation) {
+                                        val file = File(attachment.savedAt!!)
+                                        val encMes = attachment.getPayloadAsEncryptedMessage()
+                                        // decrypt file
+                                        encryptedMessageCallbacks?.decryptFile(
+                                            file,
+                                            messageModel.getMessage().senderId!!,
+                                            encMes.keyId,
+                                            encMes.signKeyId,
+                                            object : DialogViewModel.DecryptFileCallback {
+                                                override fun decrypted(data: ByteArray) {
+                                                    // Play decrypted voice
+                                                    itemClickListeners.playVoice(data, attachment.savedAt!!) {
+                                                        // stop
+                                                        itemView.ivPause.visibility = View.INVISIBLE
+                                                        itemView.ivImage.visibility = View.VISIBLE
+
+                                                        // Play next voice message
+                                                        playNextVoiceCallback?.invoke()
+                                                    }
+                                                    checkVolumeLevel()
+                                                    itemView.ivPause.visibility = View.VISIBLE
+                                                    itemView.ivImage.visibility = View.INVISIBLE
+                                                }
+
+                                                override fun error() {
+                                                    Toast.makeText(context, R.string.failed_to_decrypt_file, Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                        )
+                                    } else if (!downloading) {
+                                        itemView.pbDownloading.visibility = View.VISIBLE
+                                        downloading = true
+                                        itemClickListeners.downloadFile(fileInfo, attachment.id!!)
+                                    }
+                                }
+
+                                itemView.ivPause.setOnClickListener {
+                                    itemClickListeners.pauseVoice()
+                                    itemView.ivPause.visibility = View.INVISIBLE
+                                    itemView.ivImage.visibility = View.VISIBLE
+                                }
+
+                                itemView.layout_voice.visibility = View.VISIBLE
+                            }
+
                             null -> {
                                 // nothing
                             }
@@ -798,6 +907,9 @@ abstract class AbstractMessageHolder(
                                     // stop
                                     itemView.ivPause.visibility = View.INVISIBLE
                                     itemView.ivImage.visibility = View.VISIBLE
+
+                                    // Play next voice message
+                                    playNextVoiceCallback?.invoke()
                                 }
                                 checkVolumeLevel()
                                 itemView.ivPause.visibility = View.VISIBLE
@@ -874,6 +986,64 @@ abstract class AbstractMessageHolder(
         val volumePercent = volumeLevel * 100 / maxVolumeLevel
         if (volumePercent < 20) {
             Toast.makeText(context, R.string.turn_up_the_volume, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun setPlayNextVoiceCallback(playNextVoice: (() -> Unit)?) {
+        this.playNextVoiceCallback = playNextVoice
+    }
+
+    fun tryPlayVoiceMessage() {
+        messageModel?.let { message ->
+            if (!message.hasAttachments()) return
+
+            val attachment = message.getAttachment()
+            if (attachment.isVoice()) {
+                if (TextUtils.isEmpty(attachment.savedAt)) return
+
+                itemClickListeners.playVoice(attachment.savedAt!!) {
+                    // On voice played
+                    itemView.ivPause.visibility = View.INVISIBLE
+                    itemView.ivImage.visibility = View.VISIBLE
+
+                    // Play next voice message
+                    playNextVoiceCallback?.invoke()
+                }
+                itemView.ivPause.visibility = View.VISIBLE
+                itemView.ivImage.visibility = View.INVISIBLE
+            } else if (message.getDecryptedMessageType() == EncryptedMessageType.VOICE) {
+                if (TextUtils.isEmpty(attachment.savedAt)) return
+
+                val file = File(attachment.savedAt!!)
+                val encMes = attachment.getPayloadAsEncryptedMessage()
+                // decrypt file
+                encryptedMessageCallbacks?.decryptFile(
+                    file,
+                    message.getMessage().senderId!!,
+                    encMes.keyId,
+                    encMes.signKeyId,
+                    object : DialogViewModel.DecryptFileCallback {
+                        override fun decrypted(data: ByteArray) {
+                            // Play decrypted voice
+                            itemClickListeners.playVoice(data, attachment.savedAt!!) {
+                                // stop
+                                itemView.ivPause.visibility = View.INVISIBLE
+                                itemView.ivImage.visibility = View.VISIBLE
+
+                                // Play next voice message
+                                playNextVoiceCallback?.invoke()
+                            }
+                            checkVolumeLevel()
+                            itemView.ivPause.visibility = View.VISIBLE
+                            itemView.ivImage.visibility = View.INVISIBLE
+                        }
+
+                        override fun error() {
+                            Toast.makeText(context, R.string.failed_to_decrypt_file, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
+            }
         }
     }
 

@@ -110,7 +110,7 @@ class CreateGroupViewModel(
         if (!hasConnection()) return
 
         when {
-            privateChat.value!! && createChannel.value!! -> showError(R.string.operation_is_not_supported) //Chat.Type.PRIVATE_CHANNEL
+            privateChat.value!! && createChannel.value!! -> showError(R.string.you_cannot_create_private_channel_yet) //Chat.Type.PRIVATE_CHANNEL
             createChannel.value!! -> createChannel() //Chat.Type.CHANNEL
             privateChat.value!! -> createChat(Chat.Type.PRIVATE)
             else -> createChat(Chat.Type.PUBLIC)

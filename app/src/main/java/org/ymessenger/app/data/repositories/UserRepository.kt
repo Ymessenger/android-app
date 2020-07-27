@@ -34,6 +34,7 @@ import org.ymessenger.app.data.local.db.entities.User
 import org.ymessenger.app.data.local.db.models.UserModel
 import org.ymessenger.app.data.mappers.ContactMapper
 import org.ymessenger.app.data.mappers.GroupMapper
+import org.ymessenger.app.data.mappers.PrivacyConverter
 import org.ymessenger.app.data.mappers.UserMapper
 import org.ymessenger.app.data.remote.Listing
 import org.ymessenger.app.data.remote.NetworkState
@@ -136,6 +137,8 @@ class UserRepository private constructor(
         getUsersFromServer(listOf(userId), includeContact)
         return userDao.getUser(userId)
     }
+
+    fun getUserLocal(userId: Long) = userDao.getUser(userId)
 
     fun getUserModel(userId: Long, includeContact: Boolean = false): LiveData<UserModel> {
         getUsersFromServer(listOf(userId), includeContact)
@@ -311,6 +314,40 @@ class UserRepository private constructor(
                 }
 
             })
+    }
+
+    fun editUserPrivacy(userId: Long, newPrivacy: BooleanArray, oldPrivacy: BooleanArray?, callback: EditCallback) {
+        Log.d(TAG, "Update user privacy in local database")
+        updateUserPrivacy(userId, newPrivacy)
+
+        val editUser = org.ymessenger.app.data.remote.entities.EditUser()
+        editUser.privacy = newPrivacy
+        val editUserRequest = EditUser(editUser)
+        webSocketService.editUser(
+            editUserRequest,
+            object :
+                WebSocketService.ResponseCallback<org.ymessenger.app.data.remote.responses.User> {
+                override fun onResponse(response: org.ymessenger.app.data.remote.responses.User) {
+                    val dbUser = userMapper.toDb(response.user)
+                    executors.diskIO.execute {
+                        userDao.updateUser(dbUser)
+                    }
+                    callback.success()
+                }
+
+                override fun onError(error: ResultResponse) {
+                    Log.e(TAG, "Error while edit user privacy. Restoring old value to database...")
+                    updateUserPrivacy(userId, oldPrivacy)
+                    callback.error(error)
+                }
+
+            })
+    }
+
+    private fun updateUserPrivacy(userId: Long, privacy: BooleanArray?) {
+        executors.diskIO.execute {
+            userDao.updatePrivacy(userId, PrivacyConverter.toString(privacy))
+        }
     }
 
     fun signUp(newUser: NewUser, callback: RegisterCallback) {

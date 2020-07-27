@@ -19,6 +19,7 @@ package org.ymessenger.app.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.ymessenger.app.R
@@ -30,12 +31,18 @@ import org.ymessenger.app.helpers.SettingsHelper
 import org.ymessenger.app.utils.SingleLiveEvent
 
 class SecuritySettingsViewModel(
-    userId: Long,
+    private val userId: Long,
     private val userRepository: UserRepository,
     private val settingsHelper: SettingsHelper
 ) : BaseViewModel() {
 
-    val user = userRepository.getSelf(userId)
+    val user = userRepository.getUserLocal(userId)
+
+    private val oldPrivacy = Transformations.map(user) {
+        it?.let {
+            PrivacyConverter.toBooleanArray(it.privacy)
+        }
+    }
 
     val loading = MutableLiveData<Boolean>()
     val editedEvent = SingleLiveEvent<Void>()
@@ -54,18 +61,13 @@ class SecuritySettingsViewModel(
         userPrivacy[15] = phone
         userPrivacy[17] = email
 
-        val editUser = EditUser()
-        editUser.privacy = userPrivacy
-        loading.postValue(true)
-        userRepository.editUser(editUser, object : UserRepository.EditCallback {
+        userRepository.editUserPrivacy(userId, userPrivacy, oldPrivacy.value, object : UserRepository.EditCallback {
             override fun success() {
-                loading.postValue(false)
                 editedEvent.call()
             }
 
             override fun error(error: ResultResponse) {
-                loading.postValue(false)
-                showError(R.string.unknown_error)
+                showErrorFromCode(error.errorCode)
             }
         })
     }

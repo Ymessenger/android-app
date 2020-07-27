@@ -105,6 +105,9 @@ class ChannelViewModel(
     // FIXME: EXPERIMENTAL
     private var voiceStopCallback: (() -> Unit)? = null
 
+    val openConversationEvent = SingleLiveEvent<Pair<Int, Long>>()
+    val finishActivityEvent = SingleLiveEvent<Void>()
+
     init {
         if (!authorizationManager.isAuthorized) {
             authorizationManager.tryAuthorize()
@@ -416,6 +419,12 @@ class ChannelViewModel(
                 showError(R.string.failed_to_send_message)
             }
         })
+
+        // Open conversation if it's not the current one
+        if (conversationType != message.conversationType || identifier != channelId) {
+            openConversationEvent.postValue(conversationType to identifier)
+            finishActivityEvent.call()
+        }
     }
 
     fun clearMessagesToForward() {

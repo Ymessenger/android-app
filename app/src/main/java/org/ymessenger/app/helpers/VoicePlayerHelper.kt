@@ -19,6 +19,7 @@ package org.ymessenger.app.helpers
 
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.util.Log
 
 class VoicePlayerHelper(
@@ -37,6 +38,7 @@ class VoicePlayerHelper(
         mediaPlayer = MediaPlayer()
         this.playbackCallback = playbackCallback
         mediaPlayer?.setOnCompletionListener {
+            stop()
             playbackCallback.onComplete()
         }
     }
@@ -44,6 +46,21 @@ class VoicePlayerHelper(
     fun setSource(filePath: String) {
         try {
             mediaPlayer?.setDataSource(filePath)
+            mediaPlayer?.prepare()
+            sourceFileName = filePath
+        } catch (e: Exception) {
+            Log.e(TAG, "Error while set data source")
+            e.printStackTrace()
+            playbackCallback?.onError()
+        }
+    }
+
+    fun setSource(decryptedBytes: ByteArray, filePath: String) {
+        try {
+            // It works for now, but maybe later it should be made with MediaDataSource
+            val voiceBase64 = EncryptHelper.bytesToBase64(decryptedBytes)
+            val url = "data:audio/mp3;base64,$voiceBase64"
+            mediaPlayer?.setDataSource(url)
             mediaPlayer?.prepare()
             sourceFileName = filePath
         } catch (e: Exception) {
@@ -97,6 +114,7 @@ class VoicePlayerHelper(
         try {
             mediaPlayer?.stop()
             mediaPlayer?.reset()
+            sourceFileName = null
         } catch (e: Exception) {
             Log.e(TAG, "Failed to stop")
             e.printStackTrace()
